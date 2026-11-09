@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>萌萌寶可夢大冒險</title>
+<title>寶可夢冒險</title>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#fff7ec;--card:#ffffff;--tx:#3b2f2f;--sub:#8a7a72;--pri:#ff7a59;--ok:#4cc38a;--bad:#ef5b5b;--bd:#f1dfc8}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241f2b;--card:#322b3b;--tx:#f6ecff;--sub:#b9a9c9;--bd:#4a4058}}
@@ -47,12 +47,12 @@ small{color:var(--sub)}
 <div id="app"></div>
 <script>
 const T={
- eevee:{n:'伊布',e:'🦊',hp:40,atk:9,def:5,next:[{n:'水伊布',e:'💧🦊',cost:150,st:'water'},{n:'炎伊布',e:'🔥🦊',cost:180,st:'fire'},{n:'雷伊布',e:'⚡🦊',cost:220,st:'thunder'},{n:'仙子伊布',e:'🧚🦊',cost:240,st:'fairy'}]},
- char:{n:'小火龍',e:'🦎',hp:36,atk:11,def:4,next:[{n:'火恐龍',e:'🔥🦎',cost:80,next:[{n:'噴火龍',e:'🔥🐲',cost:200}]}]},
+ eevee:{n:'伊布',e:'🦊',hp:40,atk:10,def:6,next:[{n:'水伊布',e:'💧🦊',cost:150,st:'water'},{n:'炎伊布',e:'🔥🦊',cost:180,st:'fire'},{n:'雷伊布',e:'⚡🦊',cost:220,st:'thunder'},{n:'仙子伊布',e:'🧚🦊',cost:240,st:'fairy'}]},
+ char:{n:'小火龍',e:'🦎',hp:34,atk:13,def:4,next:[{n:'火恐龍',e:'🔥🦎',cost:80,next:[{n:'噴火龍',e:'🔥🐲',cost:200}]}]},
  pichu:{n:'皮丘',e:'🐭',hp:30,atk:8,def:3,next:[{n:'皮卡丘',e:'⚡🐭',cost:60,st:'thunder',next:[{n:'雷丘',e:'🌩️🐹',cost:200,st:'thunder'}]}]},
  pidgey:{n:'波波',e:'🐦',hp:32,atk:8,def:4,next:[{n:'比比鳥',e:'🦅',cost:90,next:[{n:'大比鳥',e:'🦅✨',cost:200}]}]},
- bulb:{n:'妙蛙種子',e:'🐸',hp:38,atk:7,def:5,next:[{n:'妙蛙草',e:'🌿🐸',cost:140,next:[{n:'妙蛙花',e:'🌺🐸',cost:240}]}]},
- squirt:{n:'傑尼龜',e:'🐢',hp:38,atk:7,def:7,next:[{n:'卡咪龜',e:'💧🐢',cost:160,next:[{n:'水箭龜',e:'🌊🐢',cost:260}]}]},
+ bulb:{n:'妙蛙種子',e:'🐸',hp:48,atk:8,def:5,next:[{n:'妙蛙草',e:'🌿🐸',cost:140,next:[{n:'妙蛙花',e:'🌺🐸',cost:240}]}]},
+ squirt:{n:'傑尼龜',e:'🐢',hp:36,atk:7,def:9,next:[{n:'卡咪龜',e:'💧🐢',cost:160,next:[{n:'水箭龜',e:'🌊🐢',cost:260}]}]},
  dratini:{n:'迷你龍',e:'🐍',hp:44,atk:12,def:6,next:[{n:'哈克龍',e:'🐲',cost:250,next:[{n:'快龍',e:'🐉',cost:400}]}]},
  larvitar:{n:'幼基拉斯',e:'🦖',hp:50,atk:13,def:8,next:[{n:'沙基拉斯',e:'🌰',cost:300,next:[{n:'班基拉斯',e:'🦖👑',cost:500}]}]},
  caterpie:{n:'綠毛蟲',e:'🐛',hp:30,atk:7,def:4,next:[{n:'鐵甲蛹',e:'🐚',cost:70,next:[{n:'巴大蝶',e:'🦋',cost:150}]}]},
@@ -126,46 +126,62 @@ const TR={counter:['以柔克剛','受到的傷害減半，並用我的招式自
 const EGGS=[{n:'普通蛋',need:3,pool:['pichu','pidgey','togepi','cleff','riolu','skit']},{n:'斑點蛋⭐',need:5,pool:['bulb','squirt','cynd','chik','treec','torch','mudk','totod']},{n:'閃亮蛋⭐⭐',need:10,pool:['dratini','abra','ghast','vani','magnet','pony']},{n:'傳說蛋⭐⭐⭐',need:15,pool:['larvitar','dratini','snor','lapras','aero','ditto','taur']}];
 function newEgg(){const r=rnd(100),t=EGGS[r<50?0:r<80?1:r<95?2:3];return{n:t.n,need:t.need,pool:t.pool,f:0,on:false,slot:null}}
 function vamp(p,d,b){if(p.trs.includes('vamp')){const h=Math.ceil(d*.3);p.hp=Math.min(p.max,p.hp+h);b.log.push('🩸 吸血回復 '+h+' 血！')}}
-const fresh=()=>mk0({mons:[mk('eevee'),mk('char')],lead:0,money:60,food:{apple:3,rice:1,meat:1,veg:1,cake:3},stone:{water:0,fire:0,thunder:0,fairy:0},eggs:[],dex:{},found:[],inc:1,ball:3,great:0,candy:3,q:null,qm:'',pos:HOME.slice(),mapv:2,seen:{},badges:0,world:0,wins:0,scr:'intro',tab:'list',cn:false,msg:'',b:null});
+const fresh=()=>mk0({mons:[],lead:0,money:60,food:{apple:3,rice:1,meat:1,veg:1,cake:3},stone:{water:0,fire:0,thunder:0,fairy:0},eggs:[],dex:{},found:[],inc:1,ball:3,great:0,candy:3,q:null,qm:'',pos:HOME.slice(),mapv:2,seen:{},badges:0,world:0,wins:0,scr:'intro',tab:'list',cn:false,msg:'',b:null});
 let g=fresh();
 const $=document.getElementById('app');
 const rnd=n=>Math.floor(Math.random()*n);
 const bar=(h,m)=>`<div class="bar"><i style="width:${Math.max(0,h/m*100)}%"></i></div>`;
 const mon=(m,sm)=>`<div class="mon ${sm?'sm':''} ${m.cool?'cool':''} ${m.fu?'two':''}">${m.e}</div>`;
 function snap(){return JSON.stringify(Object.assign({},g,{scr:'home',b:null,msg:'',cn:false,qm:''}))}
-let cst='💾 只存在這台裝置（雲端連線中…）',CL=null,cloudOK=false,cw=null,cbusy=false,cdirty=false;
-function save(){g.ts=Date.now();try{localStorage.setItem(KEY,snap())}catch(e){}cloudPush()}
-function cloudPush(){if(!CL||!cloudOK||g.scr==='intro')return;cdirty=true;if(cw)return;cw=setTimeout(async()=>{cw=null;if(cbusy){cloudPush();return}cbusy=true;cdirty=false;try{await CL.set({s:snap(),t:g.ts||Date.now()});cst='☁️ 雲端存檔已同步'}catch(e){cst='⚠️ 雲端存檔失敗，目前只存在這台裝置'}cbusy=false;if(cdirty)cloudPush()},1200)}
+let cst='💾 只存在這台裝置（雲端連線中…）',DB=null,DBU=null,pushT=null;const dirty=new Set();
+const SK=s=>KEY+'@'+s;
+let SLOT='A';try{const s0=localStorage.getItem('pocket-slot');if(s0&&'ABC'.includes(s0))SLOT=s0}catch(e){}
+const bk=k=>KEY+k+'@'+SLOT;
+const bakGet=k=>{try{return localStorage.getItem(bk(k))||(SLOT==='A'?localStorage.getItem(KEY+k):null)}catch(e){return null}};
+function readSlot(s){try{const o=JSON.parse(localStorage.getItem(SK(s)));return o&&o.mons&&o.mons.length?o:null}catch(e){return null}}
+function save(){if(!g.mons.length)return;g.ts=Date.now();try{localStorage.setItem(SK(SLOT),snap())}catch(e){}cloudPush()}
+function cloudPush(){if(!DB||!g.mons.length)return;dirty.add(SLOT);clearTimeout(pushT);pushT=setTimeout(flushCloud,1200)}
+async function flushCloud(){if(!DB)return;clearTimeout(pushT);const ss=[...dirty];dirty.clear();for(const sl of ss){try{const r=localStorage.getItem(SK(sl));if(!r)continue;let t=Date.now();try{t=JSON.parse(r).ts||t}catch(e){}await DB.doc('data/users/'+DBU+'/slot_'+sl).set({s:r,t});cst='☁️ 雲端存檔已同步'}catch(e){cst='⚠️ 雲端存檔失敗，目前只存在這台裝置';dirty.add(sl)}}}
+function slotInfo(sl){const x=sl===SLOT&&g.mons.length?g:readSlot(sl);if(!x)return'🆕 空的存檔，點一下開始新遊戲';try{const l=x.mons[x.lead]||x.mons[0];return`${l.e} ${l.n} Lv.${l.lv}　🏅${x.badges||0}/8　🌏第 ${(x.world||0)+1} 個世界　📖 ${Object.keys(x.dex||{}).length}　💰${x.money||0}`}catch(e){return'（存檔讀取錯誤）'}}
+function slotCards(){return`<div class="card"><h2>👥 選擇存檔</h2><small>換人玩就切換，每個人的進度各自記住。</small></div>`+['A','B','C'].map(sl=>`<div class="card ${sl===SLOT?'lead':''}"><div class="row"><div class="mon sm">📁</div><div class="grow"><b>${sl===SLOT?'▶ ':''}存檔 ${sl}</b><br><small>${slotInfo(sl)}</small></div>${sl===SLOT?'':`<button class="g" onclick="switchSlot('${sl}')">切換</button>`}</div></div>`).join('')}
+function switchSlot(sl){if(sl===SLOT)return;if(g.mons.length)save();flushCloud();SLOT=sl;try{localStorage.setItem('pocket-slot',sl)}catch(e){}const x=readSlot(sl);if(x){try{localStorage.setItem(bk('-boot'),JSON.stringify(x))}catch(e){}g=migrate(x);go('home','✅ 已切換到存檔 '+sl)}else{g=fresh();g.scr='intro';g.msg='';draw()}}
 async function initCloud(){
  try{
   if(!(typeof window!=='undefined'&&window.claude&&window.claude.use)){cst='💾 只存在這台裝置（沒有雲端功能）';return}
   const[db,user]=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
   const uid=db&&user?await user.id():null;
   if(!uid){cst='💾 只存在這台裝置（雲端不可用）';if(g.scr!=='battle')draw();return}
-  const ref=db.doc('data/users/'+uid+'/save'),snp=await ref.get();
-  CL=ref;
-  if(snp.exists){
-   const d=snp.data()||{};let c=null;try{c=JSON.parse(d.s)}catch(e){}
-   if(c&&c.mons&&c.mons.length&&(!saved||(d.t||0)>(saved.ts||0))){g=migrate(c);g.ts=d.t||Date.now();cloudOK=true;cst='☁️ 已從雲端讀取存檔';if(g.scr!=='battle')go('home','☁️ 已從雲端讀回你的存檔！');return}
-  }
-  cloudOK=true;cst='☁️ 雲端存檔已連線';if(g.scr!=='intro')cloudPush();if(g.scr!=='battle')draw();
+  const names=['A','B','C'],docs=await Promise.all([...names.map(sl=>db.doc('data/users/'+uid+'/slot_'+sl).get()),db.doc('data/users/'+uid+'/save').get()]);
+  let reload=null;
+  names.forEach((sl,i)=>{
+   const own=docs[i],cdoc=own.exists?own:(sl==='A'&&docs[3].exists?docs[3]:null),cd=cdoc?(cdoc.data()||{}):null;let c=null;
+   if(cd){try{c=JSON.parse(cd.s)}catch(e){}}
+   const l=readSlot(sl),lt=l?(l.ts||0):0;
+   if(c&&c.mons&&c.mons.length&&(!l||(cd.t||0)>lt)){try{localStorage.setItem(SK(sl),cd.s)}catch(e){}if(sl===SLOT)reload=c}
+   else if(l&&(!own.exists||lt>((cd&&cd.t)||0)))dirty.add(sl)
+  });
+  DB=db;DBU=uid;cst='☁️ 雲端存檔已連線';
+  if(reload&&g.scr!=='battle'){g=migrate(reload);go('home','☁️ 已從雲端讀回存檔 '+SLOT+'！')}
+  else{if(dirty.size)flushCloud();if(g.scr!=='battle')draw()}
  }catch(e){cst='💾 只存在這台裝置（雲端連線失敗）'}
 }
-function restoreBak(k){try{const o=JSON.parse(localStorage.getItem(KEY+k));if(!o||!o.mons)throw 0;g=migrate(o);go('home','📂 已還原備份！')}catch(e){go('saveio','❌ 沒有可還原的備份')}}
+function restoreBak(k){try{const o=JSON.parse(bakGet(k));if(!o||!o.mons)throw 0;g=migrate(o);go('home','📂 已還原備份！')}catch(e){go('saveio','❌ 沒有可還原的備份')}}
 function migrate(sv){const b=fresh(),x=Object.assign({},b,sv);x.food={};for(const k in FOODS)x.food[k]=(sv.food&&sv.food[k])||0;x.stone={};for(const k in ST)x.stone[k]=(sv.stone&&sv.stone[k])||0;x.mons.forEach(m=>{if(!m.trs)m.trs=rt()});x.inc=sv.inc||1;x.candy=sv.candy==null?3:sv.candy;x.q=sv.q||null;x.qm='';x.mapv=2;if(sv.mapv!==2){x.pos=HOME.slice();x.seen={};x.found=Array.from({length:x.badges||0},(_,i)=>i+1);mark(x,HOME[0],HOME[1])}else{x.pos=sv.pos;x.seen=sv.seen||{};x.found=sv.found||[]}x.dex=sv.dex||{};x.ball=sv.ball==null?3:sv.ball;x.great=sv.great||0;x.mons.forEach(m=>{if(!m.lv){m.lv=1;m.xp=0}if(m.lv>=MAXLV){m.lv=MAXLV;m.xp=0}else m.xp=Math.min(m.xp||0,need(m.lv)-1);if(m.n==='大力')m.n='豪力';if(!m.k)m.k=findK(m.n)||'eevee';if(!m.fu){const nd=nodeOf(m.k,m.n);if(nd){m.next=nd.next||null;if(nd.e)m.e=nd.e}}if(!m.src)m.src='start'});x.eggs.forEach(e=>{e.on=!!e.on;if(e.on&&e.slot==null){let k=0;while(x.eggs.some(o=>o!==e&&o.on&&o.slot===k))k++;if(k<x.inc)e.slot=k;else e.on=false}if(!e.on)e.slot=null});x.scr='home';x.b=null;x.tab=x.tab||'list';x.cn=false;return x}
-let saved=null,raw=null;try{raw=localStorage.getItem(KEY);saved=JSON.parse(raw)}catch(e){}
-if(saved&&saved.mons&&saved.mons.length){try{localStorage.setItem(KEY+'-boot',raw)}catch(e){}g=migrate(saved);g.msg='📂 歡迎回來！存檔已自動讀取。'}
+try{if(!localStorage.getItem(SK('A'))&&localStorage.getItem(KEY))localStorage.setItem(SK('A'),localStorage.getItem(KEY))}catch(e){}
+let saved=null,raw=null;try{raw=localStorage.getItem(SK(SLOT));saved=JSON.parse(raw)}catch(e){}
+if(saved&&saved.mons&&saved.mons.length){try{localStorage.setItem(bk('-boot'),raw)}catch(e){}g=migrate(saved);g.msg='📂 歡迎回來！存檔 '+SLOT+' 已自動讀取。'}
 function codeOf(){return btoa(unescape(encodeURIComponent(snap())))}
 function imp(){try{const o=JSON.parse(decodeURIComponent(escape(atob(document.getElementById('imp').value.trim()))));if(!o.mons||!o.mons.length)throw 0;g=migrate(o);go('home','✅ 存檔匯入成功！')}catch(e){go('saveio','❌ 存檔碼不正確，沒有更動任何資料。')}}
-function newGame(){try{localStorage.setItem(KEY+'-old',snap())}catch(e){}g=fresh();go('home','🌱 新的冒險開始了！')}
-function saveView(){return hdr(BACK)+`<div class="card"><h2>💾 存檔與備份</h2><small>${cst}<br>遊戲每次操作都會自動存檔。想換手機或怕遺失，可以複製下面的存檔碼保存。</small><br><textarea readonly onclick="this.select()">${codeOf()}</textarea></div>${(()=>{try{return(localStorage.getItem(KEY+'-boot')?'<button class="s" onclick="restoreBak(\'-boot\')">📂 還原本機備份（這次開啟前）</button>':'')+(localStorage.getItem(KEY+'-old')?'<button class="s" onclick="restoreBak(\'-old\')">📂 還原上一次新遊戲前的存檔</button>':'')}catch(e){return''}})()}<div class="card"><h2>📥 匯入存檔碼</h2><textarea id="imp" placeholder="貼上存檔碼"></textarea><button class="g" onclick="imp()">匯入</button></div>`+(g.msg?`<div class="card story">${g.msg}</div>`:'')+`<div class="card"><h2>🗑 開新遊戲</h2>${g.cn?'<small>確定要重新開始嗎？目前進度會備份一份，但不會顯示在遊戲裡。</small><br><button class="b" onclick="newGame()">確定重來</button><button class="s" onclick="g.cn=false;draw()">取消</button>':'<button class="s" onclick="g.cn=true;draw()">開新遊戲…</button>'}</div>`}
+function newGame(){try{localStorage.setItem(bk('-old'),snap())}catch(e){}g=fresh();g.scr='intro';g.msg='';draw()}
+function pickStarter(k){if(g.mons.length)return;g.mons=[mk(k)];g.lead=0;go('home','🌱 新的冒險開始了！你和 <b>'+g.mons[0].n+'</b> 一起出發！')}
+function saveView(){return hdr(BACK)+slotCards()+`<div class="card"><h2>💾 存檔與備份</h2><small>${cst}<br>遊戲每次操作都會自動存檔。想換手機或怕遺失，可以複製下面的存檔碼保存。</small><br><textarea readonly onclick="this.select()">${codeOf()}</textarea></div>${(()=>{try{return(bakGet('-boot')?'<button class="s" onclick="restoreBak(\'-boot\')">📂 還原本機備份（這次開啟前）</button>':'')+(bakGet('-old')?'<button class="s" onclick="restoreBak(\'-old\')">📂 還原上一次新遊戲前的存檔</button>':'')}catch(e){return''}})()}<div class="card"><h2>📥 匯入存檔碼</h2><textarea id="imp" placeholder="貼上存檔碼"></textarea><button class="g" onclick="imp()">匯入</button></div>`+(g.msg?`<div class="card story">${g.msg}</div>`:'')+`<div class="card"><h2>🗑 重新開始「存檔 ${SLOT}」</h2>${g.cn?'<small>確定要重新開始嗎？目前進度會備份一份，但不會顯示在遊戲裡。</small><br><button class="b" onclick="newGame()">確定重來</button><button class="s" onclick="g.cn=false;draw()">取消</button>':'<button class="s" onclick="g.cn=true;draw()">開新遊戲…</button>'}</div>`}
 function stoneShop(){return `<div class="card"><h2>💎 進化石頭</h2>`+Object.keys(ST).map(k=>`<div class="row"><div class="mon sm">${ST[k][0]}</div><div class="grow"><b>${ST[k][1]}</b> <small>（有 ${g.stone[k]}）</small></div><button ${g.money<ST[k][2]?'disabled':''} onclick="buyStone('${k}')">💰${ST[k][2]}</button></div>`).join('')+`</div>`}
 function buyStone(k){if(g.money<ST[k][2])return;g.money-=ST[k][2];g.stone[k]++;go('shop')}
 function go(s,msg){g.dex=g.dex||{};g.mons.forEach(m=>{g.dex[m.n]=1});qCheck();g.scr=s;g.msg=msg||'';if(g.qm&&s!=='battle'){g.msg+=g.qm;g.qm=''}save();draw()}
 const BACK=`<button class="back" onclick="go('home')">◀ 返回</button>`;
 const TTL={team:'🐾 隊伍',shop:'🛒 商店',saveio:'💾 存檔',dex:'📖 圖鑑',hatch:'🪺 孵蛋所',quest:'📋 今日任務',map:'🚲 騎車探索',battle:'⚔️ 戰鬥'};
 function hdr(nav){let b='';if(nav){const m=nav.match(/<button class="back"[^>]*>.*?<\/button>/);if(m){b=m[0];nav=nav.replace(m[0],'')}}nav=(nav||'').replace('<div class="tabs"></div>','').trim();
- return`<div class="stick"><div class="trow"><span class="ttl">${TTL[g.scr]||''}</span>${b}</div>${nav?`<div class="nav">${nav}</div>`:''}<div class="top"><span>💰 ${g.money}</span><span>🏅 ${g.badges}/8</span><span>🌏 ${WORLDS[g.world%WORLDS.length]}${g.world>=WORLDS.length?'+':''}</span></div></div>`}
+ return`<div class="stick"><div class="trow"><span class="ttl">${TTL[g.scr]||''}</span>${b}</div>${nav?`<div class="nav">${nav}</div>`:''}<div class="top"><span>📁${SLOT}</span><span>💰 ${g.money}</span><span>🏅 ${g.badges}/8</span><span>🌏 ${WORLDS[g.world%WORLDS.length]}${g.world>=WORLDS.length?'+':''}</span></div></div>`}
 function center(){if(g.money<20)return;g.money-=20;healAll();go('home','🏥 全隊回滿血了！')}
 function healAll(){g.mons.forEach(m=>m.hp=m.max)}
 const INC=[0,0,150,300,500,800];
@@ -215,7 +231,7 @@ function teamView(){
 function draw(){
  let h='';
  if(g.scr==='intro'){
-  h=`<div class="card"><h2>🌈 萌萌寶可夢大冒險</h2><div class="story">在可愛的寶可夢世界裡，你帶著夥伴 <b>伊布 🦊</b> 和 <b>小火龍 🦎</b> 出發了！<br><br>打敗訓練家，拿到蛋、賺到錢；用食物孵蛋、讓夥伴變強，還能進化成帥氣的樣子！集滿 8 枚徽章，就能前往下一個世界！</div><button onclick="go('home')">出發冒險 ▶</button></div>`;
+  h=`<div class="card"><h2>🌈 寶可夢冒險</h2><small>📁 目前：存檔 ${SLOT}</small><br><div class="story">在可愛的寶可夢世界裡，選一位夥伴一起出發吧！<br><br>打敗訓練家，拿到蛋、賺到錢；用食物孵蛋、讓夥伴變強，還能進化成帥氣的樣子！集滿 8 枚徽章，就能前往下一個世界！</div></div><div class="card"><h2>👇 選擇你的第一位夥伴（只能選一隻）</h2></div>`+['eevee','char','squirt','bulb'].map(k=>{const t=T[k];return`<div class="card"><div class="row"><div class="mon sm">${t.e}</div><div class="grow"><b>${t.n}</b> <small>${{eevee:'⚖️ 均衡型',char:'⚔️ 攻擊型',bulb:'❤️ 血量型',squirt:'🛡️ 防禦型'}[k]}</small><br><small>屬性：${TYK[k]}　❤️${t.hp}　⚔️${t.atk}　🛡️${t.def}</small></div><button class="g" onclick="pickStarter('${k}')">選牠</button></div></div>`}).join('')+slotCards();
  }else if(g.scr==='home'){
   const l=g.mons[g.lead];
   h=hdr()+`<div class="card" style="text-align:center">${mon(l)}<h2>${l.n}</h2>${bar(l.hp,l.max)}<small>❤️${l.hp}/${l.max}　⚔️${l.atk}　🛡️${l.def}</small></div>
@@ -298,7 +314,7 @@ function ballShop(){return `<div class="card"><h2>🔴 寶可夢球</h2><small>�
 function buyBall(k,n){const c=k==='ball'?30:80;if(g.money<c*n)return;g.money-=c*n;g[k]+=n;go('shop')}
 if(typeof document.addEventListener==='function')document.addEventListener('keydown',ev=>{const d={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]}[ev.key];if(d&&g.scr==='map'){ev.preventDefault();move(d[0],d[1])}});
 function gainXp(m,amt){const cp=capOf(m);if(m.lv>=cp)return'';m.xp+=amt;let up=0;while(m.lv<cp&&m.xp>=need(m.lv)){m.xp-=need(m.lv);m.lv++;up++;m.max+=8;m.hp=Math.min(m.max,m.hp+8);m.atk+=3;m.def+=2}if(m.lv>=cp)m.xp=0;return up?`⭐ ${m.n} 升到 Lv.${m.lv}${m.lv>=cp?(m.next?'（此階段滿等，可以進化了！）':'（滿等！）'):''}！`:''}
-function awardXp(mu){const base=Math.round(mu*(1+g.badges*.25+g.world*1.5)),out=[];g.mons.forEach((m,i)=>{const a=gainXp(m,i===g.lead?base:Math.round(base*.5));if(a)out.push(a)});return`<br>✨ 經驗值 +${base}（出戰），後備 +${Math.round(base*.5)}`+(out.length?'<br>'+out.join('<br>'):'')}
+function awardXp(mu){const base=Math.round(mu*(1+g.badges*.25+g.world*1.5)),out=[];const lm=g.mons[g.lead];if(lm){const a=gainXp(lm,base);if(a)out.push(a)}return`<br>✨ 經驗值 +${base}（只有出戰的夥伴獲得）`+(out.length?'<br>'+out.join('<br>'):'')}
 const lvLine=m=>{const cp=capOf(m);return`<small>Lv.${m.lv}／${cp}${m.lv>=cp?(m.next?' ⭐階段滿等，可進化':' ⭐MAX'):'　經驗 '+m.xp+'/'+need(m.lv)}</small>`+(m.lv>=cp?'':bar(m.xp,need(m.lv)))};
 const QP=[{t:'win',d:'打贏 3 場戰鬥',n:3},{t:'catch',d:'捕捉 1 隻野生寶可夢',n:1},{t:'hatch',d:'孵化 1 顆蛋',n:1},{t:'step',d:'騎車探索 30 步',n:30},{t:'trainer',d:'打敗 1 位訓練家',n:1}];
 const dayNo=()=>Math.floor((Date.now()+8*36e5)/864e5);

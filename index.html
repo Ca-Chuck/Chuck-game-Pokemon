@@ -12,7 +12,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif;max-width:520px;margin:0 auto;padding:12px}
 .top{display:flex;justify-content:space-between;gap:6px;font-weight:700;font-size:14px;margin-bottom:10px}
-.top span{background:var(--card);border:2px solid var(--bd);border-radius:20px;padding:4px 10px}
+.top span{background:var(--card);border:2px solid var(--bd);border-radius:20px;padding:3px 8px;font-size:13px}
 .card{background:var(--card);border:2px solid var(--bd);border-radius:18px;padding:12px;margin-bottom:10px}
 h2{margin:0 0 8px;font-size:18px}
 button{font:inherit;font-weight:700;border:0;border-radius:14px;padding:10px 12px;background:var(--pri);color:#fff;cursor:pointer;margin:3px 3px 3px 0}
@@ -32,27 +32,28 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 @media (prefers-color-scheme:dark){.lead{background:linear-gradient(135deg,var(--card),#4a4020)}}
 .tabs{display:flex;flex-wrap:wrap;gap:4px}.tabs button{margin:0;padding:8px 9px;font-size:14px}
 textarea{width:100%;height:90px;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:var(--tx);font-size:12px;padding:8px}
-.map{display:grid;grid-template-columns:repeat(9,1fr);gap:2px;margin-bottom:8px}.cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:19px;border-radius:6px;color:#333}.pl{outline:3px solid #ff7a59;font-size:22px;z-index:1}
+.map{display:grid;grid-template-columns:repeat(9,1fr);gap:2px;margin:0 auto 8px;max-width:min(100%,44vh)}.cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:19px;border-radius:6px;color:#333}.pl{outline:3px solid #ff7a59;font-size:22px;z-index:1}
 .ov25{grid-template-columns:repeat(25,1fr);gap:1px}.ov25 .cell{font-size:8px;border-radius:2px}
-.dpad{display:grid;grid-template-columns:repeat(3,68px);gap:6px;justify-content:center;margin-bottom:10px}.dpad button{margin:0;height:54px;font-size:22px;padding:0}
+.dpad{display:grid;grid-template-columns:repeat(3,68px);gap:6px;justify-content:center;margin-bottom:10px}.dpad button{margin:0;height:46px;font-size:22px;padding:0}
 .dx{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.dx div{text-align:center;font-size:11px;background:var(--card);border:2px solid var(--bd);border-radius:12px;padding:4px 2px;word-break:break-all}.dx b{display:block;font-size:24px}
 .mon.two{font-size:32px}.mon.sm.two{font-size:20px}
 .foe{border-color:var(--bad)}.me{border-color:var(--ok)}.tag{font-size:13px;font-weight:800;margin-bottom:6px}.foe .tag{color:var(--bad)}.me .tag{color:var(--ok)}
 .log{font-size:14px;color:var(--sub);min-height:60px}
 small{color:var(--sub)}
 .story{font-size:15px;line-height:1.6}
+.note{font-size:13px;line-height:1.4;margin-top:6px;padding:6px 10px;border-radius:12px;background:var(--card);border:2px solid var(--bd);max-height:5.6em;overflow:auto}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
 const T={
- eevee:{n:'伊布',e:'🦊',hp:40,atk:10,def:6,next:[{n:'水伊布',e:'💧🦊',cost:150,st:'water'},{n:'炎伊布',e:'🔥🦊',cost:180,st:'fire'},{n:'雷伊布',e:'⚡🦊',cost:220,st:'thunder'},{n:'仙子伊布',e:'🧚🦊',cost:240,st:'fairy'}]},
- char:{n:'小火龍',e:'🦎',hp:34,atk:13,def:4,next:[{n:'火恐龍',e:'🔥🦎',cost:80,next:[{n:'噴火龍',e:'🔥🐲',cost:200}]}]},
+ eevee:{n:'伊布',e:'🦊',hp:41,atk:10,def:7,next:[{n:'水伊布',e:'💧🦊',cost:150,st:'water'},{n:'炎伊布',e:'🔥🦊',cost:180,st:'fire'},{n:'雷伊布',e:'⚡🦊',cost:220,st:'thunder'},{n:'仙子伊布',e:'🧚🦊',cost:240,st:'fairy'}]},
+ char:{n:'小火龍',e:'🦎',hp:28,atk:16,def:3,next:[{n:'火恐龍',e:'🔥🦎',cost:80,next:[{n:'噴火龍',e:'🔥🐲',cost:200}]}]},
  pichu:{n:'皮丘',e:'🐭',hp:30,atk:8,def:3,next:[{n:'皮卡丘',e:'⚡🐭',cost:60,st:'thunder',next:[{n:'雷丘',e:'🌩️🐹',cost:200,st:'thunder'}]}]},
  pidgey:{n:'波波',e:'🐦',hp:32,atk:8,def:4,next:[{n:'比比鳥',e:'🦅',cost:90,next:[{n:'大比鳥',e:'🦅✨',cost:200}]}]},
- bulb:{n:'妙蛙種子',e:'🐸',hp:48,atk:8,def:5,next:[{n:'妙蛙草',e:'🌿🐸',cost:140,next:[{n:'妙蛙花',e:'🌺🐸',cost:240}]}]},
- squirt:{n:'傑尼龜',e:'🐢',hp:36,atk:7,def:9,next:[{n:'卡咪龜',e:'💧🐢',cost:160,next:[{n:'水箭龜',e:'🌊🐢',cost:260}]}]},
+ bulb:{n:'妙蛙種子',e:'🐸',hp:60,atk:7,def:5,next:[{n:'妙蛙草',e:'🌿🐸',cost:140,next:[{n:'妙蛙花',e:'🌺🐸',cost:240}]}]},
+ squirt:{n:'傑尼龜',e:'🐢',hp:34,atk:6,def:12,next:[{n:'卡咪龜',e:'💧🐢',cost:160,next:[{n:'水箭龜',e:'🌊🐢',cost:260}]}]},
  dratini:{n:'迷你龍',e:'🐍',hp:44,atk:12,def:6,next:[{n:'哈克龍',e:'🐲',cost:250,next:[{n:'快龍',e:'🐉',cost:400}]}]},
  larvitar:{n:'幼基拉斯',e:'🦖',hp:50,atk:13,def:8,next:[{n:'沙基拉斯',e:'🌰',cost:300,next:[{n:'班基拉斯',e:'🦖👑',cost:500}]}]},
  caterpie:{n:'綠毛蟲',e:'🐛',hp:30,atk:7,def:4,next:[{n:'鐵甲蛹',e:'🐚',cost:70,next:[{n:'巴大蝶',e:'🦋',cost:150}]}]},
@@ -72,7 +73,7 @@ FAM.forEach((f,i)=>{const[k,rest]=f.split(':'),st=rest.split(',').map(x=>x.split
  let nx=null;for(let q=st.length-1;q>=1;q--){nx=[{n:st[q][0],e:st[q][1],cost:st.length===2?c1+30:(q===1?c1:c1+120),next:nx||undefined}]}
  T[k]={n:st[0][0],e:st[0][1],hp:base.hp,atk:base.atk,def:base.def,next:nx||undefined}});
 function formsOf(k){const o=[],w=n=>{o.push({n:n.n,e:n.e,k});(n.next||[]).forEach(w)};w({n:T[k].n,e:T[k].e,next:T[k].next});return o}
-const MAXLV=10,FUSE=1000,need=l=>8+l*4;
+const MAXLV=10,FUSE=1000,need=l=>8+l*4,SN=['初階','二階','三階'],stageTxt=m=>SN[stg(m)[0]-1]+(m.next?'':'（已到頂）');
 const TE={一般:'⚪',火:'🔥',水:'💧',草:'🌿',電:'⚡',冰:'❄️',格鬥:'🥊',毒:'☠️',地面:'⛰️',飛行:'🕊️',超能力:'🔮',蟲:'🐛',岩石:'🪨',幽靈:'👻',龍:'🐲',妖精:'🧚',惡:'🌑'};
 const EFF={一般:'|岩石|幽靈',火:'草冰蟲|火水岩石龍|',水:'火地面岩石|水草龍|',草:'水地面岩石|火草毒飛行蟲龍|',電:'水飛行|電草龍|地面',冰:'草地面飛行龍|火水冰|',格鬥:'一般冰岩石惡|毒飛行超能力蟲妖精|幽靈',毒:'草妖精|毒地面岩石幽靈|',地面:'火電毒岩石|草蟲|飛行',飛行:'草格鬥蟲|電岩石|',超能力:'格鬥毒|超能力|惡',蟲:'草超能力惡|火格鬥毒飛行幽靈妖精|',岩石:'火冰飛行蟲|格鬥地面|',幽靈:'超能力幽靈|惡|一般',惡:'超能力幽靈|格鬥惡妖精|',龍:'龍||妖精',妖精:'格鬥龍惡|火毒|'};
 const TYK={eevee:'一般',char:'火',pichu:'電',pidgey:'一般/飛行',bulb:'草/毒',squirt:'水',dratini:'龍',larvitar:'岩石/地面',caterpie:'蟲',oddish:'草/毒',rattata:'一般',meowth:'一般',psyduck:'水',geodude:'岩石/地面',zubat:'毒/飛行',machop:'格鬥',magnet:'電',chik:'草',cynd:'火',totod:'水',treec:'草',torch:'火',mudk:'水',star:'一般/飛行',bell:'草/毒',abra:'超能力',ghast:'幽靈/毒',vani:'冰',togepi:'妖精',cleff:'妖精',riolu:'格鬥',pony:'火',magi:'水',grim:'毒',slow:'水/超能力',cubone:'地面',seel:'水',koff:'毒',skit:'一般',swab:'一般/飛行',jig:'一般/妖精',ekans:'毒',snor:'一般',ditto:'一般',lapras:'水/冰',aero:'岩石/飛行',taur:'一般',kang:'一般',scyt:'蟲/飛行',pinsir:'蟲'};
@@ -109,7 +110,7 @@ function mapOf(w){
  sp.forEach(([r,c])=>{if(rs[r+','+c])return;let y=r,x=c;while(y!==12||x!==12){if(y!==12)y+=Math.sign(12-y);else x+=Math.sign(12-x);if(G[y][x]==='#'||G[y][x]==='w')G[y][x]='.'}});
  return MC[w]=G.map(r=>r.join(''));
 }
-const TL={'#':['🌳','#9bd37a'],'.':['','#e8d9b8'],g:['🌿','#b9e39a'],f:['🌾','#efe3a1'],r:['⛰️','#cfc6c0'],w:['💧','#9ad1ff'],H:['🏠','#ffd6d6'],S:['🏪','#d6e4ff']};
+const TL={'#':['🌳','#8a7a6a'],'.':['','#e8d9b8'],g:['🌿','#b9e39a'],f:['🌾','#efe3a1'],r:['⛰️','#cfc6c0'],w:['💧','#8a7a6a'],H:['🏠','#ffd6d6'],S:['🏪','#d6e4ff']};
 const POOL=['pichu','pidgey','bulb','squirt'];
 const LEADERS=['岩石','流水','閃電','青草','幽靈','冰雪','超能力','龍'];
 const WORLDS=['草原世界','森林世界','海島世界','雪山世界','星空世界'];
@@ -126,7 +127,7 @@ const TR={counter:['以柔克剛','受到的傷害減半，並用我的招式自
 const EGGS=[{n:'普通蛋',need:3,pool:['pichu','pidgey','togepi','cleff','riolu','skit']},{n:'斑點蛋⭐',need:5,pool:['bulb','squirt','cynd','chik','treec','torch','mudk','totod']},{n:'閃亮蛋⭐⭐',need:10,pool:['dratini','abra','ghast','vani','magnet','pony']},{n:'傳說蛋⭐⭐⭐',need:15,pool:['larvitar','dratini','snor','lapras','aero','ditto','taur']}];
 function newEgg(){const r=rnd(100),t=EGGS[r<50?0:r<80?1:r<95?2:3];return{n:t.n,need:t.need,pool:t.pool,f:0,on:false,slot:null}}
 function vamp(p,d,b){if(p.trs.includes('vamp')){const h=Math.ceil(d*.3);p.hp=Math.min(p.max,p.hp+h);b.log.push('🩸 吸血回復 '+h+' 血！')}}
-const fresh=()=>mk0({mons:[],lead:0,money:60,food:{apple:3,rice:1,meat:1,veg:1,cake:3},stone:{water:0,fire:0,thunder:0,fairy:0},eggs:[],dex:{},found:[],inc:1,ball:3,great:0,candy:3,q:null,qm:'',pos:HOME.slice(),mapv:2,seen:{},badges:0,world:0,wins:0,scr:'intro',tab:'list',cn:false,msg:'',b:null});
+const fresh=()=>mk0({mons:[],lead:0,money:60,food:{apple:3,rice:1,meat:1,veg:1,cake:3},stone:{water:0,fire:0,thunder:0,fairy:0},eggs:[],dex:{},found:[],inc:1,ball:3,great:0,candy:3,q:null,qm:'',pos:HOME.slice(),mapv:2,seen:{},badges:0,beaten:[],repel:0,cd:0,world:0,wins:0,scr:'intro',tab:'list',cn:false,msg:'',b:null});
 let g=fresh();
 const $=document.getElementById('app');
 const rnd=n=>Math.floor(Math.random()*n);
@@ -166,7 +167,7 @@ async function initCloud(){
  }catch(e){cst='💾 只存在這台裝置（雲端連線失敗）'}
 }
 function restoreBak(k){try{const o=JSON.parse(bakGet(k));if(!o||!o.mons)throw 0;g=migrate(o);go('home','📂 已還原備份！')}catch(e){go('saveio','❌ 沒有可還原的備份')}}
-function migrate(sv){const b=fresh(),x=Object.assign({},b,sv);x.food={};for(const k in FOODS)x.food[k]=(sv.food&&sv.food[k])||0;x.stone={};for(const k in ST)x.stone[k]=(sv.stone&&sv.stone[k])||0;x.mons.forEach(m=>{if(!m.trs)m.trs=rt()});x.inc=sv.inc||1;x.candy=sv.candy==null?3:sv.candy;x.q=sv.q||null;x.qm='';x.mapv=2;if(sv.mapv!==2){x.pos=HOME.slice();x.seen={};x.found=Array.from({length:x.badges||0},(_,i)=>i+1);mark(x,HOME[0],HOME[1])}else{x.pos=sv.pos;x.seen=sv.seen||{};x.found=sv.found||[]}x.dex=sv.dex||{};x.ball=sv.ball==null?3:sv.ball;x.great=sv.great||0;x.mons.forEach(m=>{if(!m.lv){m.lv=1;m.xp=0}if(m.lv>=MAXLV){m.lv=MAXLV;m.xp=0}else m.xp=Math.min(m.xp||0,need(m.lv)-1);if(m.n==='大力')m.n='豪力';if(!m.k)m.k=findK(m.n)||'eevee';if(!m.fu){const nd=nodeOf(m.k,m.n);if(nd){m.next=nd.next||null;if(nd.e)m.e=nd.e}}if(!m.src)m.src='start'});x.eggs.forEach(e=>{e.on=!!e.on;if(e.on&&e.slot==null){let k=0;while(x.eggs.some(o=>o!==e&&o.on&&o.slot===k))k++;if(k<x.inc)e.slot=k;else e.on=false}if(!e.on)e.slot=null});x.scr='home';x.b=null;x.tab=x.tab||'list';x.cn=false;return x}
+function migrate(sv){const b=fresh(),x=Object.assign({},b,sv);x.food={};for(const k in FOODS)x.food[k]=(sv.food&&sv.food[k])||0;x.stone={};for(const k in ST)x.stone[k]=(sv.stone&&sv.stone[k])||0;x.mons.forEach(m=>{if(!m.trs)m.trs=rt()});x.inc=sv.inc||1;x.candy=sv.candy==null?3:sv.candy;x.q=sv.q||null;x.qm='';x.mapv=2;if(sv.mapv!==2){x.pos=HOME.slice();x.seen={};x.found=Array.from({length:x.badges||0},(_,i)=>i+1);mark(x,HOME[0],HOME[1])}else{x.pos=sv.pos;x.seen=sv.seen||{};x.found=sv.found||[]}x.dex=sv.dex||{};x.ball=sv.ball==null?3:sv.ball;x.great=sv.great||0;x.mons.forEach(m=>{if(!m.lv){m.lv=1;m.xp=0}if(m.lv>=MAXLV){m.lv=MAXLV;m.xp=0}else m.xp=Math.min(m.xp||0,need(m.lv)-1);if(m.n==='大力')m.n='豪力';if(!m.k)m.k=findK(m.n)||'eevee';if(!m.fu){const nd=nodeOf(m.k,m.n);if(nd){m.next=nd.next||null;if(nd.e)m.e=nd.e}}if(!m.src)m.src='start'});x.eggs.forEach(e=>{e.on=!!e.on;if(e.on&&e.slot==null){let k=0;while(x.eggs.some(o=>o!==e&&o.on&&o.slot===k))k++;if(k<x.inc)e.slot=k;else e.on=false}if(!e.on)e.slot=null});x.repel=sv.repel||0;x.cd=sv.cd||0;x.beaten=Array.isArray(sv.beaten)?sv.beaten:Array.from({length:x.badges||0},(_,i)=>i+1);x.scr='home';x.b=null;x.tab=x.tab||'list';x.cn=false;return x}
 try{if(!localStorage.getItem(SK('A'))&&localStorage.getItem(KEY))localStorage.setItem(SK('A'),localStorage.getItem(KEY))}catch(e){}
 let saved=null,raw=null;try{raw=localStorage.getItem(SK(SLOT));saved=JSON.parse(raw)}catch(e){}
 if(saved&&saved.mons&&saved.mons.length){try{localStorage.setItem(bk('-boot'),raw)}catch(e){}g=migrate(saved);g.msg='📂 歡迎回來！存檔 '+SLOT+' 已自動讀取。'}
@@ -179,18 +180,21 @@ function stoneShop(){return `<div class="card"><h2>💎 進化石頭</h2>`+Objec
 function buyStone(k){if(g.money<ST[k][2])return;g.money-=ST[k][2];g.stone[k]++;go('shop')}
 function go(s,msg){g.dex=g.dex||{};g.mons.forEach(m=>{g.dex[m.n]=1});qCheck();g.scr=s;g.msg=msg||'';if(g.qm&&s!=='battle'){g.msg+=g.qm;g.qm=''}save();draw()}
 const BACK=`<button class="back" onclick="go('home')">◀ 返回</button>`;
-const TTL={team:'🐾 隊伍',shop:'🛒 商店',saveio:'💾 存檔',dex:'📖 圖鑑',hatch:'🪺 孵蛋所',quest:'📋 今日任務',map:'🚲 騎車探索',battle:'⚔️ 戰鬥'};
+const TTL={home:'⏸️ 休息・選單',team:'🐾 隊伍',shop:'🛒 商店',saveio:'💾 存檔',dex:'📖 圖鑑',hatch:'🪺 孵蛋所',quest:'📋 今日任務',map:'🚲 騎車探索',battle:'⚔️ 戰鬥'};
 function hdr(nav){let b='';if(nav){const m=nav.match(/<button class="back"[^>]*>.*?<\/button>/);if(m){b=m[0];nav=nav.replace(m[0],'')}}nav=(nav||'').replace('<div class="tabs"></div>','').trim();
- return`<div class="stick"><div class="trow"><span class="ttl">${TTL[g.scr]||''}</span>${b}</div>${nav?`<div class="nav">${nav}</div>`:''}<div class="top"><span>📁${SLOT}</span><span>💰 ${g.money}</span><span>🏅 ${g.badges}/8</span><span>🌏 ${WORLDS[g.world%WORLDS.length]}${g.world>=WORLDS.length?'+':''}</span></div></div>`}
-function center(){if(g.money<20)return;g.money-=20;healAll();go('home','🏥 全隊回滿血了！')}
+ return`<div class="stick"><div class="trow"><span class="ttl">${TTL[g.scr]||''}</span>${b}</div>${nav?`<div class="nav">${nav}</div>`:''}<div class="top"><span>📁${SLOT}</span><span>💰 ${g.money}</span><span>🏅 ${g.badges}/8</span><span>🌏 ${WORLDS[g.world%WORLDS.length].slice(0,2)}${g.world>=WORLDS.length?'+':''}</span>${g.scr==='map'&&g.repel>0?'<span>🌫️ '+g.repel+'步</span>':''}${g.scr==='map'&&g.mons[g.lead]?'<span>❤️ '+g.mons[g.lead].hp+'/'+g.mons[g.lead].max+'</span>':''}</div>${g.scr==='map'&&g.msg?'<div class="note">'+g.msg+'</div>':''}</div>`}
+function center(){if(g.money<20)return;g.money-=20;healAll();go('shop','🏥 全隊回滿血了！')}
+const BACKMAP=`<button class="back" onclick="go('map')">◀ 回地圖</button>`;
+function healCard(){return `<div class="card"><h2>🏥 全隊治療</h2><small>全隊回滿血。</small><br><button class="g" ${g.money<20||g.mons.every(m=>m.hp>=m.max)?'disabled':''} onclick="center()">治療 💰20</button></div>`}
 function healAll(){g.mons.forEach(m=>m.hp=m.max)}
 const INC=[0,0,150,300,500,800];
 function incRow(){const used=g.eggs.filter(e=>e.on).length,nx=INC[g.inc+1];return `<div class="row"><div class="mon sm">🪺</div><div class="grow"><b>孵蛋器 ${g.inc} 台</b><br><small>使用中 ${used}/${g.inc}</small></div>${g.inc>=5?'<small>已達上限</small>':`<button ${g.money<nx?'disabled':''} onclick="buyInc()">買 💰${nx}</button>`}</div>`}
 function buyInc(){const c=INC[g.inc+1];if(g.inc>=5||g.money<c)return;g.money-=c;g.inc++;go(g.scr,g.scr==='team'?'🪺 買了新的孵蛋器！':'')}
-function putEgg(i,k){const e=g.eggs[i];if(e.on||k>=g.inc||g.eggs.some(o=>o.on&&o.slot===k))return;e.on=true;e.slot=k;go('hatch')}
-function takeEgg(i){g.eggs[i].on=false;g.eggs[i].slot=null;go('hatch')}
-function hatchView(){
- let h=hdr(BACK)+(g.msg?`<div class="card story">${g.msg}</div>`:'');
+function putEgg(i,k){const e=g.eggs[i];if(e.on||k>=g.inc||g.eggs.some(o=>o.on&&o.slot===k))return;e.on=true;e.slot=k;g.tab='hatch';go('team')}
+function takeEgg(i){g.eggs[i].on=false;g.eggs[i].slot=null;g.tab='hatch';go('team')}
+function hatchView(){return hdr(BACK)+hatchBody()}
+function hatchBody(){
+ let h='';
  h+=`<div class="card"><h2>🪺 孵蛋所</h2><small>蛋要放進孵蛋器才能孵化。我的蛋糕：🍰×${g.food.cake}</small>${incRow()}</div>`;
  for(let k=0;k<g.inc;k++){
   const i=g.eggs.findIndex(e=>e.on&&e.slot===k),e=g.eggs[i];
@@ -213,31 +217,31 @@ function doFuse(){const f=g.fu||[];if(f.length!==2||g.money<FUSE||!f.every(i=>g.
  go('team','🧬 融合成功！誕生了新寶可夢 <b>'+n.n+' '+n.e+'</b>（回到 Lv.1，但能力超強）！')}
 function fuseView(){
  const el=g.mons.map((m,i)=>i).filter(i=>elig(g.mons[i]));g.fu=(g.fu||[]).filter(i=>el.includes(i));const f=g.fu;
- let h=`<div class="card"><h2>🧬 融合</h2><small>升到頂之後的終極目標！<br>條件：<b>進化到最終型態</b>，而且<b>達到 Lv.${MAXLV} 滿等</b>，才會出現在這裡。<br>選 2 隻合體成 1 隻新的：融合後<b>回到 Lv.1、不能進化</b>，但初始能力超強（約兩隻合計的 75%），之後還能繼續升級。屬性合併，特性各繼承 1 個。<br>費用 💰${FUSE}（比任何進化都貴），原本兩隻會消失。</small></div>`;
- if(el.length<2)h+=`<div class="card"><small>目前符合條件的有 ${el.length} 隻，要有 2 隻才能融合。去打戰鬥累積經驗，把寶可夢養到滿等、進化到最終型態吧！</small></div>`;
+ let h=`<div class="card"><h2>🧬 融合</h2><small>升到頂之後的大目標！<br>條件：<b>進化到頂（該進化線的最後一階）</b>，而且<b>達到 Lv.${MAXLV} 滿等</b>，才會出現在這裡。<br>選 2 隻合體成 1 隻新的：融合後<b>回到 Lv.1、不能進化</b>，但初始能力超強（約兩隻合計的 75%），之後還能繼續升級。屬性合併，特性各繼承 1 個。<br>費用 💰${FUSE}（比任何進化都貴），原本兩隻會消失。</small></div>`;
+ if(el.length<2)h+=`<div class="card"><small>目前符合條件的有 ${el.length} 隻，要有 2 隻才能融合。去打戰鬥累積經驗，把寶可夢養到滿等、進化到頂吧！</small></div>`;
  if(f.length===2){const n=fuseOf(g.mons[f[0]],g.mons[f[1]]);h+=`<div class="card lead"><div class="tag lt">🧬 預覽（Lv.1）</div><div class="row">${mon(n,1)}<div class="grow"><b>${n.n}</b> ${tch(n.tp)}<br><small>❤️${n.max}　⚔️${n.atk}　🛡️${n.def}（特性融合時隨機決定）</small></div></div>${g.fc?`<small>確定嗎？這兩隻會消失，無法還原！</small><br><button class="b" ${g.money<FUSE?'disabled':''} onclick="doFuse()">✅ 確定融合 💰${FUSE}</button><button class="s" onclick="g.fc=false;draw()">取消</button>`:`<button class="g" ${g.money<FUSE?'disabled':''} onclick="doFuse()">🧬 融合 💰${FUSE}</button>`}</div>`}
  else if(el.length>=2)h+=`<div class="card"><small>請選 2 隻（已選 ${f.length}/2）</small></div>`;
  return h+el.map(i=>{const m=g.mons[i];return`<div class="card ${f.includes(i)?'lead':''}"><div class="row">${mon(m,1)}<div class="grow"><b>${m.n}</b> <small>Lv.${m.lv} ⭐MAX</small>${i===g.lead?' ⭐':''} ${tch(ty(m))}<br><small>❤️${m.max}　⚔️${m.atk}　🛡️${m.def}</small></div><button class="${f.includes(i)?'g':'s'}" onclick="pickFu(${i})">${f.includes(i)?'✅ 已選':'選擇'}</button></div></div>`}).join('')}
+function fusePanel(){const el=g.mons.map((m,i)=>i).filter(i=>elig(g.mons[i]));g.fu=(g.fu||[]).filter(i=>el.includes(i));const f=g.fu;if(el.length<2)return'';let h=`<div class="card"><h2>🧬 融合</h2><small>滿等＋進化到頂的才能融合。在下面的卡片按「選來融合」選 2 隻（已選 ${f.length}/2）。融合後回到 Lv.1、不能進化，但能力很強；費用 💰${FUSE}，原本兩隻會消失。</small></div>`;if(f.length===2){const n=fuseOf(g.mons[f[0]],g.mons[f[1]]);h+=`<div class="card lead"><div class="tag lt">🧬 預覽（Lv.1）</div><div class="row">${mon(n,1)}<div class="grow"><b>${n.n}</b> ${tch(n.tp)}<br><small>❤️${n.max}　⚔️${n.atk}　🛡️${n.def}（特性融合時隨機決定）</small></div></div>${g.fc?`<small>確定嗎？這兩隻會消失，無法還原！</small><br><button class="b" ${g.money<FUSE?'disabled':''} onclick="doFuse()">✅ 確定融合 💰${FUSE}</button><button class="s" onclick="g.fc=false;draw()">取消</button>`:`<button class="g" ${g.money<FUSE?'disabled':''} onclick="doFuse()">🧬 融合 💰${FUSE}</button>`}</div>`}return h}
+function monCard(m,i){const FD=['apple','rice','meat','veg'],el=elig(m),sel=(g.fu||[]).includes(i);
+ return`<div class="card ${i===g.lead?'lead':''}">${i===g.lead?'<div class="tag lt">⭐ 出戰寶可夢</div>':''}<div class="row">${mon(m,1)}<div class="grow"><b>${m.n}</b> <small>${m.fu?'🧬 融合體':stageTxt(m)}</small> ${tch(ty(m))}<br>${bar(m.hp,m.max)}<small>❤️${m.hp}/${m.max}　⚔️${m.atk}　🛡️${m.def}</small><br>${lvLine(m)}</div></div><div><small>${srcTag(m)}</small></div><div>${m.trs.map(k=>`<small>✨ <b>${TR[k][0]}</b>：${TR[k][1]}</small>`).join('<br>')}</div><div>${i===g.lead?'<button disabled>✅ 出戰中</button>':`<button class="s" onclick="g.lead=${i};go('team')">設為出戰</button>`}${el?`<button class="${sel?'g':'s'}" onclick="pickFu(${i})">${sel?'✅ 已選融合':'🧬 選來融合'}</button>`:''}</div><div>${FD.map(f=>`<button class="s" ${g.food[f]&&!(f==='apple'&&m.hp>=m.max)?'':'disabled'} onclick="eat(${i},'${f}')">${FOODS[f][0]}×${g.food[f]}</button>`).join('')}<button class="g" ${g.candy&&m.lv<MAXLV?'':'disabled'} onclick="useCandy(${i})">🍬×${g.candy}</button></div>${m.next?`<div>${m.lv<capOf(m)?`<small>🔒 升到 Lv.${capOf(m)} 才能進化（現在 Lv.${m.lv}）</small><br>`:''}${m.next.map((o,j)=>`<button class="g" ${g.money<o.cost||(o.st&&!g.stone[o.st])||m.lv<capOf(m)?'disabled':''} onclick="evolve(${i},${j})">進化→${o.n}${tyn(o.n,m.k).map(t=>TE[t]).join('')}（${SN[stg(m)[0]]}） 💰${o.cost}${o.st?' '+ST[o.st][0]+'×'+g.stone[o.st]:''}</button>`).join('')}</div>`:''}</div>`}
 function teamView(){
- const tabs=[['list','🐾 隊伍'],['feed','🍎 補給'],['evo','✨ 進化'],['fuse','🧬 融合']],t=g.tab||'list';
+ const tabs=[['list','🐾 隊伍'],['hatch','🪺 孵蛋']];if(g.tab!=='list'&&g.tab!=='hatch')g.tab='list';const t=g.tab;
  let h=hdr(`<div class="tabs">${BACK}${tabs.map(x=>`<button class="${t===x[0]?'':'s'}" onclick="g.tab='${x[0]}';g.msg='';draw()">${x[1]}</button>`).join('')}</div>`);
  if(g.msg)h+=`<div class="card story">${g.msg}</div>`;
- const FD=['apple','rice','meat','veg'];
- if(t!=='feed'&&t!=='evo'&&t!=='fuse')h+=g.mons.map((m,i)=>`<div class="card ${i===g.lead?'lead':''}">${i===g.lead?'<div class="tag lt">⭐ 目前出戰中</div>':''}<div class="row">${mon(m,1)}<div class="grow"><b>${m.n}</b> <small>Lv.${m.lv}</small><br>${bar(m.hp,m.max)}<small>❤️${m.hp}/${m.max}　⚔️${m.atk}　🛡️${m.def}</small><br>${lvLine(m)}</div></div><div><small>${srcTag(m)}</small> ${tch(ty(m))}</div><div>${m.trs.map(k=>`<small>✨ <b>${TR[k][0]}</b>：${TR[k][1]}</small>`).join('<br>')}</div>${i===g.lead?'<button disabled>✅ 出戰中</button>':`<button class="s" onclick="g.lead=${i};go('team')">設為出戰</button>`}</div>`).join('');
- else if(t==='feed')h+=`<div class="card"><small>${FD.map(f=>FOODS[f][0]+' '+FOODS[f][3].split('（')[0]).join('　')}</small></div>`+g.mons.map((m,i)=>`<div class="card ${i===g.lead?'lead':''}"><div class="row">${mon(m,1)}<div class="grow"><b>${m.n}</b> <small>Lv.${m.lv}</small>${i===g.lead?' ⭐':''}${bar(m.hp,m.max)}<small>❤️${m.hp}/${m.max}　⚔️${m.atk}　🛡️${m.def}</small></div></div>${FD.map(f=>`<button ${g.food[f]&&!(f==='apple'&&m.hp>=m.max)?'':'disabled'} onclick="eat(${i},'${f}')">${FOODS[f][0]}×${g.food[f]}</button>`).join('')}<button class="g" ${g.candy&&m.lv<MAXLV?'':'disabled'} onclick="useCandy(${i})">🍬×${g.candy}</button></div>`).join('');
- else if(t==='fuse')h+=fuseView();
- else if(t==='evo')h+=`<div class="card"><small>💰${g.money}　${Object.keys(ST).map(k=>ST[k][0]+'×'+g.stone[k]).join('　')}</small></div>`+g.mons.map((m,i)=>`<div class="card"><div class="row">${mon(m,1)}<div class="grow"><b>${m.n}</b> <small>Lv.${m.lv}</small> ${tch(ty(m))}<br><small>❤️${m.max}　⚔️${m.atk}　🛡️${m.def}</small><br><small>${m.fu?'🧬 融合體':`第${stg(m)[0]}階／共${stg(m)[1]}階${m.next?'':'　🌟最終型態'}`}</small></div></div>${m.next&&m.lv<capOf(m)?`<small>🔒 要先升到 Lv.${capOf(m)}（目前 Lv.${m.lv}）才能進化</small><br>`:''}${m.next?m.next.map((o,j)=>`<button class="g" ${g.money<o.cost||(o.st&&!g.stone[o.st])||m.lv<capOf(m)?'disabled':''} onclick="evolve(${i},${j})">進化→${o.n}${tyn(o.n,m.k).map(t=>TE[t]).join('')}${!o.next&&stg(m)[1]>=3?' 🌟終極':''} 💰${o.cost}${o.st?' '+ST[o.st][0]+'×'+g.stone[o.st]:''}</button>`).join(''):'<small>已是最終型態 ✨</small>'}</div>`).join('');
- return h}
+ if(t==='hatch')return h+hatchBody();
+ return h+fusePanel()+`<div class="card"><small>每隻卡片都能：出戰、補給（🍎回血30　🍱最大血量+8　🍖攻擊+2　🥦防禦+2　🍬+1級）、進化、選來融合。<br>💰${g.money}　${Object.keys(ST).map(k=>ST[k][0]+'×'+g.stone[k]).join('　')}</small></div>`+g.mons.map(monCard).join('')}
+let lastScr='';
 function draw(){
  let h='';
  if(g.scr==='intro'){
   h=`<div class="card"><h2>🌈 寶可夢冒險</h2><small>📁 目前：存檔 ${SLOT}</small><br><div class="story">在可愛的寶可夢世界裡，選一位夥伴一起出發吧！<br><br>打敗訓練家，拿到蛋、賺到錢；用食物孵蛋、讓夥伴變強，還能進化成帥氣的樣子！集滿 8 枚徽章，就能前往下一個世界！</div></div><div class="card"><h2>👇 選擇你的第一位夥伴（只能選一隻）</h2></div>`+['eevee','char','squirt','bulb'].map(k=>{const t=T[k];return`<div class="card"><div class="row"><div class="mon sm">${t.e}</div><div class="grow"><b>${t.n}</b> <small>${{eevee:'⚖️ 均衡型',char:'⚔️ 攻擊型',bulb:'❤️ 血量型',squirt:'🛡️ 防禦型'}[k]}</small><br><small>屬性：${TYK[k]}　❤️${t.hp}　⚔️${t.atk}　🛡️${t.def}</small></div><button class="g" onclick="pickStarter('${k}')">選牠</button></div></div>`}).join('')+slotCards();
  }else if(g.scr==='home'){
   const l=g.mons[g.lead];
-  h=hdr()+`<div class="card" style="text-align:center">${mon(l)}<h2>${l.n}</h2>${bar(l.hp,l.max)}<small>❤️${l.hp}/${l.max}　⚔️${l.atk}　🛡️${l.def}</small></div>
+  h=hdr()+`<div class="card" style="text-align:center"><div class="tag lt">⭐ 出戰寶可夢</div>${mon(l)}<h2>${l.n}</h2>${bar(l.hp,l.max)}<small>❤️${l.hp}/${l.max}　⚔️${l.atk}　🛡️${l.def}</small></div>
   ${g.msg?`<div class="card story">${g.msg}</div>`:''}
-  <div class="card"><h2>🚲 騎車探索</h2><small>下一座道館：第 ${g.badges+1} 座${g.found.includes(g.badges+1)?'（已發現位置）':'（還沒發現位置，騎車去探索吧！）'}。草叢有野生寶可夢，路上會遇到訓練家。</small><br><button class="b" onclick="go('map')">出發騎車 🚴</button></div>
-  <div class="card"><button class="g" onclick="go('team')">🐾 隊伍與蛋</button><button class="s" onclick="go('quest')">📋 今日任務 ${qDone()}/3</button><button class="s" onclick="go('dex')">📖 圖鑑 ${dexN()}/${DEXTOT}</button><button class="s" onclick="go('hatch')">🪺 孵蛋所${g.eggs.length?' ('+g.eggs.length+')':''}</button><button class="s" onclick="go('shop')">🛒 商店</button><button class="s" onclick="go('saveio')">💾 存檔</button><button class="s" ${g.money<20||g.mons.every(m=>m.hp>=m.max)?'disabled':''} onclick="center()">🏥 全隊治療 💰20</button></div><div class="card"><small>${cst}</small></div>`;
+  <div class="card"><h2>🚲 騎車探索</h2><small>已發現 ${g.found.length}/8 座道館，已通關 ${g.badges}/8。道館不用照順序，找到就能挑戰（越後面的越強）。草叢有野生寶可夢，路上會遇到訓練家。</small><br><button class="b" onclick="go('map')">繼續騎車 🚴</button></div>
+  <div class="card"><button class="g" onclick="go('team')">🐾 隊伍・孵蛋</button><button class="s" onclick="go('quest')">📋 今日任務 ${qDone()}/3</button><button class="s" onclick="go('dex')">📖 圖鑑 ${dexN()}/${DEXTOT}</button><button class="s" onclick="go('saveio')">💾 存檔</button></div><div class="card"><small>${cst}</small></div>`;
  }else if(g.scr==='team'){
   h=teamView();
  }else if(g.scr==='quest'){
@@ -251,105 +255,126 @@ function draw(){
  }else if(g.scr==='saveio'){
   h=saveView();
  }else if(g.scr==='shop'){
-  h=hdr(BACK)+`<div class="card"><h2>🛒 食材商店</h2>`+Object.keys(FOODS).map(f=>`<div class="row"><div class="mon sm">${FOODS[f][0]}</div><div class="grow"><b>${FOODS[f][1]}</b> <small>${FOODS[f][3]}　（有 ${g.food[f]}）</small></div><button ${g.money<FOODS[f][2]?'disabled':''} onclick="buy('${f}',1)">💰${FOODS[f][2]}</button><button class="s" ${g.money<FOODS[f][2]*5?'disabled':''} onclick="buy('${f}',5)">×5</button></div>`).join('')+`</div>`;
- h+=candyShop()+ballShop()+stoneShop()+`<div class="card"><h2>🪺 孵蛋器</h2>${incRow()}</div>`;}else if(g.scr==='battle'){
+  h=hdr(BACKMAP)+(g.msg?`<div class="card story">${g.msg}</div>`:'')+healCard()+`<div class="card"><h2>🛒 食材商店</h2>`+Object.keys(FOODS).map(f=>`<div class="row"><div class="mon sm">${FOODS[f][0]}</div><div class="grow"><b>${FOODS[f][1]}</b> <small>${FOODS[f][3]}　（有 ${g.food[f]}）</small></div><button ${g.money<FOODS[f][2]?'disabled':''} onclick="buy('${f}',1)">💰${FOODS[f][2]}</button></div>`).join('')+`</div>`;
+ h+=candyShop()+ballShop()+repelShop()+stoneShop()+`<div class="card"><h2>🪺 孵蛋器</h2>${incRow()}</div>`;}else if(g.scr==='battle'){
   const b=g.b,p=g.mons[g.lead];
-  h=hdr(`<button class="back" onclick="flee()">🏃 離開戰鬥</button>`)+`<div class="card foe"><div class="tag">👾 對手：${b.tn}</div><div class="row">${mon(b.e,1)}<div class="grow"><b>${b.e.n}</b> ${tch(b.e.tp)}${bar(b.e.hp,b.e.max)}<small>❤️ ${b.e.hp}/${b.e.max}</small></div></div></div><div style="text-align:center;font-weight:800;margin:-4px 0 6px">⚔️ VS ⚔️</div><div class="card me"><div class="tag">🙋 我方</div><div class="row">${mon(p,1)}<div class="grow"><b>${p.n}</b> <small>Lv.${p.lv}</small> ${tch(ty(p))}${bar(p.hp,p.max)}<small>❤️ ${p.hp}/${p.max}${b.charge?'　🔋蓄力中':''}</small></div></div></div>
+  h=hdr(`<button class="back" onclick="flee()">🏃 離開戰鬥</button>`)+`<div class="card foe"><div class="tag">👾 對手：${b.tn}${b.team?'（第 '+(b.ti+1)+'/'+b.team.length+' 隻）':''}</div><div class="row">${mon(b.e,1)}<div class="grow"><b>${b.e.n}</b> ${tch(b.e.tp)}${bar(b.e.hp,b.e.max)}<small>❤️ ${b.e.hp}/${b.e.max}</small></div></div></div><div style="text-align:center;font-weight:800;margin:-4px 0 6px">⚔️ VS ⚔️</div><div class="card me"><div class="tag">🙋 我方</div><div class="row">${mon(p,1)}<div class="grow"><b>${p.n}</b> <small>Lv.${p.lv}</small> ${tch(ty(p))}${bar(p.hp,p.max)}<small>❤️ ${p.hp}/${p.max}${b.charge?'　🔋蓄力中':''}</small></div></div></div>
   <div class="card log">${b.log.slice(-3).join('<br>')}</div>
-  <div class="card"><button onclick="act('atk')">⚔️ 攻擊${effMark(mult(ty(p)[0],b.e.tp))}</button><button class="b" ${b.cd?'disabled':''} onclick="act('big')">💥 必殺${effMark(mult(ty(p)[1]||ty(p)[0],b.e.tp))}${b.cd?'('+b.cd+')':''}</button>${b.wild?`<button class="g" ${g.ball?'':'disabled'} onclick="act('ball')">🔴精靈球×${g.ball}</button><button class="g" ${g.great?'':'disabled'} onclick="act('great')">🔵超級球×${g.great}</button>`:''}<button class="g" ${g.food.apple&&p.hp<p.max?'':'disabled'} onclick="act('heal')">🍎×${g.food.apple}</button><button class="s" onclick="act('def')">🛡️ 防禦（回血+蓄力）</button></div>`;
+  ${g.sw?swList():`<div class="card"><button onclick="act('atk')">⚔️ 攻擊${effMark(mult(ty(p)[0],b.e.tp))}</button><button class="b" ${g.cd?'disabled':''} onclick="act('big')">💥 必殺${effMark(mult(ty(p)[1]||ty(p)[0],b.e.tp))}${g.cd?'（還要等 '+g.cd+' 回合）':''}</button>${b.wild?`<button class="g" ${g.ball?'':'disabled'} onclick="act('ball')">🔴精靈球×${g.ball}</button><button class="g" ${g.great?'':'disabled'} onclick="act('great')">🔵超級球×${g.great}</button>`:''}<button class="g" ${g.food.apple&&p.hp<p.max?'':'disabled'} onclick="act('heal')">🍎×${g.food.apple}</button><button class="s" onclick="act('def')">🛡️ 防禦（回血+蓄力）</button><button class="s" ${g.mons.some((m,i)=>i!==g.lead&&m.hp>0)?'':'disabled'} onclick="g.sw=true;draw()">🔄 換寶可夢</button></div><div class="card"><small>⚔️ <b>攻擊</b>：每回合都能用，傷害穩定。<br>💥 <b>必殺</b>：傷害約 1.8 倍、用寶可夢的第二屬性，但有 30% 會揮空，用完要等 3 回合才能再用。<br>🛡️ <b>防禦</b>：回血 15%，下一次攻擊或必殺傷害 ×1.5。<br>平常用攻擊，等必殺冷卻好、或對手怕你的屬性（⬆️）再放必殺最划算。</small></div>`}`;
  }else if(g.scr==='world'){
   h=`<div class="card story"><h2>🎉 集滿 8 枚徽章！</h2>一道彩虹光芒出現，通往新世界的大門打開了！<br><br>下一站：<b>${WORLDS[g.world%WORLDS.length]}</b>。這裡的訓練家更強，加油！</div><button onclick="go('home')">進入新世界 🌈</button>`;
  }
  $.innerHTML=h;
+ if(g.scr==='map'){if(typeof requestAnimationFrame==='function')requestAnimationFrame(()=>{const m=document.querySelector('.map'),st=document.querySelector('.stick');if(m){const y=m.getBoundingClientRect().top+window.pageYOffset-(st?st.offsetHeight:0)-6;window.scrollTo(0,Math.max(0,y))}})}else if(lastScr!==g.scr&&typeof window.scrollTo==='function')window.scrollTo(0,0);
+ lastScr=g.scr;
 }
 function eat(i,f){if(!g.food[f])return;g.food[f]--;const m=g.mons[i];if(f==='apple'){m.hp=Math.min(m.max,m.hp+30)}else if(f==='rice'){m.max+=8;m.hp+=8}else if(f==='meat')m.atk+=2;else m.def+=2;go('team',FOODS[f][0]+' '+m.n+'：'+FOODS[f][3].split('（')[0]+'！')}
 function buy(f,n){if(g.money<FOODS[f][2]*n)return;g.money-=FOODS[f][2]*n;g.food[f]+=n;go('shop')}
-function feedEgg(i,all){const e=g.eggs[i];if(!e.on)return;const n=all?Math.min(g.food.cake,e.need-e.f):1;if(!g.food.cake||n<1)return;g.food.cake-=n;e.f+=n;if(e.f>=e.need){g.eggs.splice(i,1);const k=e.pool[rnd(e.pool.length)];g.mons.push(mk(k,1.25,'hatch'));qProg('hatch',1);return go('home','🐣 '+e.n+'孵化了！新夥伴 <b>'+T[k].n+' '+T[k].e+'</b> 加入隊伍！<br><small>🥚 孵出來的寶可夢能力比野生的強 25%！</small>')}go('hatch')}
-function evolve(i,j){const m=g.mons[i],o=m.next[j];if(m.lv<capOf(m))return;if(g.money<o.cost||(o.st&&!g.stone[o.st]))return;g.money-=o.cost;if(o.st)g.stone[o.st]--;const fin=!o.next&&stg(m)[1]>=3,q=fin?1.6:1;m.n=o.n;m.e=o.e;m.next=o.next||null;m.max+=Math.round(15*q);m.atk+=Math.round(4*q);m.def+=Math.round(3*q);m.hp=m.max;m.cool=true;m.lv=1;m.xp=0;go('team',(fin?'🌟 終極進化！能力大幅提升！<br>':'')+'✨ 進化成功！變成帥氣的 <b>'+o.n+'</b> 了！<br><small>等級回到 Lv.1，但能力都保留，繼續練到 Lv.'+MAXLV+(o.next?' 才能再進化':' 就是滿等')+'。</small>')}
+function feedEgg(i,all){const e=g.eggs[i];if(!e.on)return;const n=all?Math.min(g.food.cake,e.need-e.f):1;if(!g.food.cake||n<1)return;g.food.cake-=n;e.f+=n;if(e.f>=e.need){g.eggs.splice(i,1);const k=e.pool[rnd(e.pool.length)];g.mons.push(mk(k,1.25,'hatch'));qProg('hatch',1);g.tab='list';return go('team','🐣 '+e.n+'孵化了！新夥伴 <b>'+T[k].n+' '+T[k].e+'</b> 加入隊伍！<br><small>🥚 孵出來的寶可夢能力比野生的強 25%！</small>')}g.tab='hatch';go('team')}
+function evolve(i,j){const m=g.mons[i],o=m.next[j];if(m.lv<capOf(m))return;if(g.money<o.cost||(o.st&&!g.stone[o.st]))return;g.money-=o.cost;if(o.st)g.stone[o.st]--;const sn=SN[stg(m)[0]],fin=!o.next&&stg(m)[1]>=3,q=fin?1.6:1;m.n=o.n;m.e=o.e;m.next=o.next||null;m.max+=Math.round(15*q);m.atk+=Math.round(4*q);m.def+=Math.round(3*q);m.hp=m.max;m.cool=true;m.lv=1;m.xp=0;go('team',(fin?'🌟 進化到'+sn+'，能力大幅提升！<br>':'')+'✨ 進化成功！變成帥氣的 <b>'+o.n+'</b>（'+sn+'）了！<br><small>等級回到 Lv.1，但能力都保留，繼續練到 Lv.'+MAXLV+(o.next?' 才能再進化':' 就是滿等')+'。</small>')}
+function mkFoe(fm,f,hm,am){const hp=Math.round(45*f*hm);return{n:fm.n,e:fm.e,tp:tyn(fm.n,fm.k),hp,max:hp,atk:Math.round(7*f*am),def:Math.round(3*f)}}
+function trainerForm(){const ks=Object.keys(T),k=ks[rnd(ks.length)],fs=formsOf(k),lv=g.badges+g.world*4,i=Math.floor(lv/3)+(rnd(3)===0?1:0);return fs[Math.min(i,fs.length-1)]}
+function bossTeam(tp,f){const pool=ALLF.filter(x=>tyn(x.n,x.k).includes(tp)),idx=x=>formsOf(x.k).findIndex(y=>y.n===x.n),pick=[];while(pick.length<3&&pool.length){const c=pool.splice(rnd(pool.length),1)[0];if(!pick.some(p=>p.n===c.n))pick.push(c)}let guard=0;while(pick.length<3&&guard++<50){const c=trainerForm();if(!pick.some(p=>p.n===c.n))pick.push(c)}pick.sort((a,b)=>idx(a)-idx(b));return pick.map((fm,i)=>mkFoe(fm,f,[1,1.15,1.5][i],[1,1.1,1.3][i]))}
 function fight(kind,key){
  const boss=kind==='boss',wild=kind==='wild',f=1+g.badges*.25+g.world*1.5;
  const names=['短褲小子','捕蟲少年','野餐少女','登山大叔','游泳選手'];
- let e,tn;
- if(wild){const t=T[key],hp=Math.round(t.hp*f);tn='野生寶可夢';e={n:t.n,e:t.e,tp:tyk0(key),hp,max:hp,atk:Math.round(t.atk*f*.8),def:Math.round(t.def*f*.6)}}
- else{const hp=Math.round(30*f*(boss?1.5:1)),pk=boss?BOSS[g.badges%8]:ES[rnd(ES.length)];tn=boss?'第'+(g.badges+1)+'道館館主':names[rnd(names.length)];e={n:boss?'館主的王牌':'訓練家的寶可夢',e:pk[0],tp:pk[1].split('/'),hp,max:hp,atk:Math.round(7*f*(boss?1.3:1)),def:Math.round(3*f)}}
- g.b={boss,wild,key,tn,e,cd:0,guard:false,charge:false,log:[wild?`🌿 野生的 ${e.n} 出現了！先打弱牠，再丟球捕捉（打倒了就抓不到喔）。`:(boss?'🏟️ ':'🧒 ')+tn+' 想和你對戰！','💡 看對手的屬性！按鈕上的 ⬆️ 代表效果絕佳，⬇️ 代表效果不好。']};
+ let e,tn,team=null;
+ if(wild){const t=T[key],wd=Math.round(t.def*f*.6),L=g.mons[g.lead].hp>0?g.mons[g.lead]:(g.mons.find(m=>m.hp>0)||g.mons[g.lead]),ah=Math.max(1,L.atk-Math.floor(wd/2)+1.5),hp=Math.max(8,Math.round(ah*2.8*Math.min(1.25,Math.max(.85,t.hp/36))));tn='野生寶可夢';e={n:t.n,e:t.e,tp:tyk0(key),hp,max:hp,atk:Math.round(t.atk*f*.8),def:wd}}
+ else if(boss){const n=key||g.badges+1;tn='第'+n+'道館館主';team=bossTeam(BOSS[(n-1)%8][1],1+(n-1)*.25+g.world*1.5);e=team[0]}else{tn=names[rnd(names.length)];e=mkFoe(trainerForm(),f,1,1)}
+ g.sw=false;if(g.mons[g.lead].hp<=0){const ai=g.mons.findIndex(m=>m.hp>0);if(ai>=0)g.lead=ai}
+ g.b={boss,wild,key,tn,e,team,ti:0,used:[g.lead],cd:0,guard:false,charge:false,log:[wild?`🌿 野生的 ${e.n} 出現了！先打弱牠，再丟球捕捉（打倒了就抓不到喔）。`:(boss?'🏟️ ':'🧒 ')+tn+' 想和你對戰！'+(boss?'要連續打 3 場！第 1 隻：':'派出了：')+e.n,'💡 看對手的屬性！按鈕上的 ⬆️ 代表效果絕佳，⬇️ 代表效果不好。']};
  go('battle');
 }
 const tyk0=k=>TYK[k].split('/');
 function dexView(){const n=dexN();return hdr(BACK)+`<div class="card"><h2>📖 寶可夢圖鑑</h2><small>已收集 ${n} / ${DEXTOT} 種（擁有或進化過就會登錄）</small>${bar(n,DEXTOT)}</div><div class="card"><h2>⚔️ 屬性相剋表</h2><small>${Object.keys(EFF).map(t=>{const r=EFF[t].split('|'),l=x=>x?[...Object.keys(TE)].filter(k=>x.includes(k)).map(k=>TE[k]).join(''):'—';return TE[t]+t+'：⬆️'+l(r[0])+'　⬇️'+l(r[1])+(r[2]?'　🚫'+l(r[2]):'')}).join('<br>')}</small></div><div class="dx">`+ALLF.map(f=>g.dex[f.n]?`<div><b>${f.e}</b>${f.n}<br>${tyn(f.n,f.k).map(t=>TE[t]).join('')}</div>`:`<div><b>❓</b>？？？</div>`).join('')+`</div>`}
 function mapApple(){const l=g.mons[g.lead];if(!g.food.apple||l.hp>=l.max)return;g.food.apple--;l.hp=Math.min(l.max,l.hp+30);go('map','🍎 '+l.n+' 回復了體力！')}
+function discover(MAP){const pr=g.pos[0],pc=g.pos[1],nf=[];g.seen=g.seen||{};for(let a=-3;a<=3;a++)for(let b=-3;b<=3;b++){const r=pr+a,k=pc+b,q=(MAP[r]||'')[k];if(!q)continue;g.seen[r+','+k]=1;if(/\d/.test(q)&&!g.found.includes(+q)){g.found.push(+q);nf.push(+q)}}return nf}
+const FOGS='background:repeating-linear-gradient(45deg,#2b2733 0 4px,#3a3446 4px 8px);color:#8d84a3';
 function move(dr,dc){
  if(g.scr!=='map')return;
  const MAP=mapOf(g.world),nr=g.pos[0]+dr,nc=g.pos[1]+dc,t=(MAP[nr]||'')[nc];
  if(!t||t==='#'||t==='w')return;
  g.pos=[nr,nc];mark(g,nr,nc);qProg('step',1);
- let nf=[];for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++){const q=(MAP[nr+a]||'')[nc+b];if(q&&/\d/.test(q)&&!g.found.includes(+q)){g.found.push(+q);nf.push(+q)}}
- const fm=nf.length?'🏟️ 你發現了第 '+nf.join('、')+' 道館！':'';
- if('gfr'.includes(t)&&rnd(100)<40){const p=POOLS[t];return fight('wild',p[rnd(p.length)])}
- if(t==='.'){const r=rnd(100);if(r<8)return fight('trainer');if(r<14){const c=10+rnd(20);g.money+=c;return go('map',(fm?fm+'<br>':'')+'💰 路邊撿到 '+c+' 元！')}}
+ const nf=discover(MAP),rp=g.repel>0;if(rp)g.repel--;
+ const fm=(nf.length?'🏟️ 發現第 '+nf.join('、')+' 道館！':'')+(rp&&g.repel===0?' 🌫️噴霧用完了':'');
+ if(!rp&&'gfr'.includes(t)&&rnd(100)<40){const p=POOLS[t];return fight('wild',p[rnd(p.length)])}
+ if(t==='.'){const r=rnd(100);if(r<8&&!rp)return fight('trainer');if(r>=8&&r<14){const c=10+rnd(20);g.money+=c;return go('map',(fm?fm+' ':'')+'💰路邊撿到 '+c+' 元')}}
  go('map',fm);
 }
 function mapView(){
  const MAP=mapOf(g.world),N=MAP.length,l=g.mons[g.lead],[pr,pc]=g.pos,t=MAP[pr][pc];
- let h=hdr(`<button class="back" onclick="go('home')">🏠 回家</button> <button class="s" onclick="g.ov=!g.ov;draw()">🧭 ${g.ov?'返回地圖':'全圖'}</button>`);
- if(g.msg)h+=`<div class="card story">${g.msg}</div>`;
- h+=`<div class="card"><div class="row">${mon(l,1)}<div class="grow"><b>${l.n}</b> ⭐${bar(l.hp,l.max)}<small>❤️${l.hp}/${l.max}　🔴×${g.ball}　🔵×${g.great}　📖${dexN()}/${DEXTOT}　🏟️發現${g.found.length}/8</small></div></div><button class="g" ${g.food.apple&&l.hp<l.max?'':'disabled'} onclick="mapApple()">🍎×${g.food.apple} 回血</button></div>`;
- const cell=c=>{let em=(TL[c]||[''])[0],bg=(TL[c]||['','#e8d9b8'])[1];if(/\d/.test(c)){const n=+c;if(g.found.includes(n)){em=n<=g.badges?'🏅':n===g.badges+1?c+'️⃣':'🔒';bg='#ffe28a'}else{em='';bg=TL['.'][1]}}return[em,bg]};
+ discover(MAP);
+ let h=hdr(`<button class="back" onclick="go('home')">⏸️ 休息</button> <button class="s" onclick="g.ov=!g.ov;draw()">🧭 ${g.ov?'返回地圖':'全圖'}</button>`);
+ const tail=`<div class="card"><div class="row">${mon(l,1)}<div class="grow"><b>${l.n}</b> ⭐${bar(l.hp,l.max)}<small>❤️${l.hp}/${l.max}　🔴×${g.ball}　🔵×${g.great}　📖${dexN()}/${DEXTOT}　🏟️發現${g.found.length}/8</small></div></div><button class="g" ${g.food.apple&&l.hp<l.max?'':'disabled'} onclick="mapApple()">🍎×${g.food.apple} 回血</button></div>`;
+ const cell=c=>{let em=(TL[c]||[''])[0],bg=(TL[c]||['','#e8d9b8'])[1];if(/\d/.test(c)){const n=+c;if(g.found.includes(n)){em=g.beaten.includes(n)?'🏅':c+'️⃣';bg='#ffe28a'}else{em='';bg=TL['.'][1]}}return[em,bg]};
  if(g.ov){
-  h+=`<div class="map ov25">`+MAP.map((row,r)=>[...row].map((c,k)=>{if(r===pr&&k===pc)return`<div class="cell" style="background:#ff4d4d">🚴</div>`;if(!g.seen[r+','+k])return`<div class="cell" style="background:#4a4458"></div>`;const[em,bg]=cell(c);return`<div class="cell" style="background:${bg}">${em}</div>`}).join('')).join('')+`</div><small>🧭 全圖：只會顯示走過的地方（${Object.keys(g.seen).length}/${N*N}）</small>`;
+  h+=`<div class="map ov25">`+MAP.map((row,r)=>[...row].map((c,k)=>{if(r===pr&&k===pc)return`<div class="cell" style="background:#ff4d4d">🚴</div>`;if(!g.seen[r+','+k])return`<div class="cell" style="${FOGS};font-size:9px">?</div>`;const[em,bg]=cell(c);return`<div class="cell" style="background:${bg}">${em}</div>`}).join('')).join('')+`</div><small>🧭 全圖：斜紋問號＝沒探索過，褐灰色底＝過不去。${(()=>{let n=0;for(let r=0;r<N;r++)for(let k=0;k<N;k++)if(g.seen[r+','+k])n++;return'已探索 '+n+'/'+N*N+'（'+Math.round(n/N/N*100)+'%）'})()}</small>`;
  }else{
   const r0=Math.max(0,Math.min(N-9,pr-4)),c0=Math.max(0,Math.min(N-9,pc-4));
   h+=`<div class="map">`;
-  for(let r=r0;r<r0+9;r++)for(let k=c0;k<c0+9;k++){const[em,bg]=cell(MAP[r][k]);h+=r===pr&&k===pc?`<div class="cell pl" style="background:${bg}">🚴</div>`:`<div class="cell" style="background:${bg}">${em}</div>`}
-  h+=`</div><small>📍 座標 (${pr},${pc})／${N}×${N}</small>`;
+  for(let r=r0;r<r0+9;r++)for(let k=c0;k<c0+9;k++){if(!g.seen[r+','+k]){h+=`<div class="cell" style="${FOGS}">?</div>`;continue}const[em,bg]=cell(MAP[r][k]);h+=r===pr&&k===pc?`<div class="cell pl" style="background:${bg}">🚴</div>`:`<div class="cell" style="background:${bg}">${em}</div>`}
+  h+=`</div><small>📍 座標 (${pr},${pc})／${N}×${N}　斜紋問號＝沒探索過，褐灰色底＝過不去</small>`;
  }
  h+=`<div class="dpad"><span></span><button onclick="move(-1,0)">▲</button><span></span><button onclick="move(0,-1)">◀</button><button class="s" disabled>🚲</button><button onclick="move(0,1)">▶</button><span></span><button onclick="move(1,0)">▼</button><span></span></div>`;
- if(t==='H')h+=`<div class="card"><button onclick="go('home')">🏠 進屋（隊伍・孵蛋所）</button></div>`;
- else if(t==='S')h+=`<div class="card"><h2>🏪 小鎮</h2><button class="s" onclick="go('shop')">🛒 商店</button><button class="s" ${g.money<20||g.mons.every(m=>m.hp>=m.max)?'disabled':''} onclick="centerMap()">🏥 治療 💰20</button></div>`;
- else if(/\d/.test(t)){const n=+t;h+=`<div class="card"><h2>🏟️ 第 ${n} 道館</h2>`+(n<=g.badges?'<small>已經通關了 🏅</small>':n===g.badges+1?`<button class="b" onclick="fight('boss')">挑戰館主 🔥</button>`:`<small>🔒 要先拿到第 ${n-1} 枚徽章</small>`)+`</div>`}
+ if(t==='H')h+=`<div class="card"><h2>🏠 家</h2><button class="g" ${g.mons.every(m=>m.hp>=m.max)?'disabled':''} onclick="homeRest()">😴 睡覺（全隊補滿血）</button></div>`;
+ else if(t==='S')h+=`<div class="card"><h2>🏪 小鎮</h2><button class="g" onclick="go('shop')">🛒 進入商店</button></div>`;
+ else if(/\d/.test(t)){const n=+t;h+=`<div class="card"><h2>🏟️ 第 ${n} 道館</h2>`+(g.beaten.includes(n)?'<small>已經通關了 🏅</small>':`<small>${BOSS[(n-1)%8][1]}系道館，館主有 3 隻，越後面的道館越強！</small><br><button class="b" onclick="fight('boss',${n})">挑戰館主（3 連戰）🔥</button>`)+`</div>`}
  else h+=`<div class="card"><small>${'gfr'.includes(t)?'🌾 草叢裡可能有野生寶可夢！':'🛤️ 路上可能遇到訓練家。'}</small></div>`;
- return h}
+ return h+tail}
+function homeRest(){healAll();go('map','😴 睡了一覺，全隊血量回滿！')}
 function centerMap(){if(g.money<20)return;g.money-=20;healAll();go('map','🏥 全隊回滿血了！')}
-function ballShop(){return `<div class="card"><h2>🔴 寶可夢球</h2><small>要用球才能捕捉野生寶可夢！把牠打到虛弱，成功率更高。</small>`+[['ball','🔴','精靈球',30,'基本捕捉率'],['great','🔵','超級球',80,'捕捉率更高']].map(x=>`<div class="row"><div class="mon sm">${x[1]}</div><div class="grow"><b>${x[2]}</b> <small>${x[4]}（有 ${g[x[0]]}）</small></div><button ${g.money<x[3]?'disabled':''} onclick="buyBall('${x[0]}',1)">💰${x[3]}</button><button class="s" ${g.money<x[3]*5?'disabled':''} onclick="buyBall('${x[0]}',5)">×5</button></div>`).join('')+`</div>`}
+function ballShop(){return `<div class="card"><h2>🔴 寶可夢球</h2><small>要用球才能捕捉野生寶可夢！把牠打到虛弱，成功率更高。</small>`+[['ball','🔴','精靈球',30,'基本捕捉率'],['great','🔵','超級球',80,'捕捉率更高']].map(x=>`<div class="row"><div class="mon sm">${x[1]}</div><div class="grow"><b>${x[2]}</b> <small>${x[4]}（有 ${g[x[0]]}）</small></div><button ${g.money<x[3]?'disabled':''} onclick="buyBall('${x[0]}',1)">💰${x[3]}</button></div>`).join('')+`</div>`}
+function repelShop(){return `<div class="card"><h2>🌫️ 避戰噴霧</h2><div class="row"><div class="mon sm">🌫️</div><div class="grow"><b>避戰噴霧</b> <small>80 步內不會遇到野生寶可夢和訓練家（道館不受影響）。剩 ${g.repel} 步</small></div><button ${g.money<60?'disabled':''} onclick="buyRepel(1)">💰60</button></div></div>`}
+function buyRepel(n){const c=60*n;if(g.money<c)return;g.money-=c;g.repel+=80*n;go('shop')}
 function buyBall(k,n){const c=k==='ball'?30:80;if(g.money<c*n)return;g.money-=c*n;g[k]+=n;go('shop')}
 if(typeof document.addEventListener==='function')document.addEventListener('keydown',ev=>{const d={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]}[ev.key];if(d&&g.scr==='map'){ev.preventDefault();move(d[0],d[1])}});
-function gainXp(m,amt){const cp=capOf(m);if(m.lv>=cp)return'';m.xp+=amt;let up=0;while(m.lv<cp&&m.xp>=need(m.lv)){m.xp-=need(m.lv);m.lv++;up++;m.max+=8;m.hp=Math.min(m.max,m.hp+8);m.atk+=3;m.def+=2}if(m.lv>=cp)m.xp=0;return up?`⭐ ${m.n} 升到 Lv.${m.lv}${m.lv>=cp?(m.next?'（此階段滿等，可以進化了！）':'（滿等！）'):''}！`:''}
-function awardXp(mu){const base=Math.round(mu*(1+g.badges*.25+g.world*1.5)),out=[];const lm=g.mons[g.lead];if(lm){const a=gainXp(lm,base);if(a)out.push(a)}return`<br>✨ 經驗值 +${base}（只有出戰的夥伴獲得）`+(out.length?'<br>'+out.join('<br>'):'')}
+function gainXp(m,amt){const cp=capOf(m);if(m.lv>=cp)return'';m.xp+=amt;let up=0;while(m.lv<cp&&m.xp>=need(m.lv)){m.xp-=need(m.lv);m.lv++;up++;m.max+=8;m.hp=Math.min(m.max,m.hp+8);m.atk+=3;m.def+=2}if(m.lv>=cp)m.xp=0;return up?`⭐${m.n}升到Lv.${m.lv}${m.lv>=cp?(m.next?'（滿等，可進化）':'（滿等）'):''}`:''}
+function awardXp(mu,us){const base=Math.round(mu*(1+g.badges*.25+g.world*1.5)),out=[],ids=us||(g.b&&g.b.used)||[g.lead];ids.forEach(i=>{const m=g.mons[i];if(m&&m.hp>0){const a=gainXp(m,base);if(a)out.push(a)}});return` ✨經驗+${base}（上場且活著的都有）`+(out.length?' '+out.join(' '):'')}
 const lvLine=m=>{const cp=capOf(m);return`<small>Lv.${m.lv}／${cp}${m.lv>=cp?(m.next?' ⭐階段滿等，可進化':' ⭐MAX'):'　經驗 '+m.xp+'/'+need(m.lv)}</small>`+(m.lv>=cp?'':bar(m.xp,need(m.lv)))};
 const QP=[{t:'win',d:'打贏 3 場戰鬥',n:3},{t:'catch',d:'捕捉 1 隻野生寶可夢',n:1},{t:'hatch',d:'孵化 1 顆蛋',n:1},{t:'step',d:'騎車探索 30 步',n:30},{t:'trainer',d:'打敗 1 位訓練家',n:1}];
 const dayNo=()=>Math.floor((Date.now()+8*36e5)/864e5);
 function qCheck(){const d=dayNo();if(g.q&&g.q.day===d)return;const s=d%5;g.q={day:d,bonus:false,list:[0,2,4].map(k=>Object.assign({h:0,done:false},QP[(s+k)%5]))}}
-function qProg(t,n){qCheck();const q=g.q;q.list.forEach(x=>{if(x.t===t&&!x.done){x.h=Math.min(x.n,x.h+n);if(x.h>=x.n){x.done=true;g.candy+=2;g.food.cake+=2;g.money+=50;g.qm=(g.qm||'')+`<br>📋 任務完成：${x.d}！獲得 🍬×2 🍰×2 💰50`}}});if(!q.bonus&&q.list.every(x=>x.done)){q.bonus=true;g.candy+=3;g.eggs.push(newEgg());g.qm=(g.qm||'')+'<br>🎉 今日任務全部完成！額外獲得 🍬×3 和一顆蛋！'}}
+function qProg(t,n){qCheck();const q=g.q;q.list.forEach(x=>{if(x.t===t&&!x.done){x.h=Math.min(x.n,x.h+n);if(x.h>=x.n){x.done=true;g.candy+=2;g.food.cake+=2;g.money+=50;g.qm=(g.qm||'')+` 📋完成：${x.d}（🍬2 🍰2 💰50）`}}});if(!q.bonus&&q.list.every(x=>x.done)){q.bonus=true;g.candy+=3;g.eggs.push(newEgg());g.qm=(g.qm||'')+' 🎉今日任務全完成！🍬+3 和一顆蛋'}}
 const qDone=()=>{qCheck();return g.q.list.filter(x=>x.done).length};
 function questView(){qCheck();const q=g.q;return hdr(BACK)+`<div class="card"><h2>📋 今日任務</h2><small>每天換新任務（台灣時間 0 點）。每個任務完成得 🍬×2 🍰×2 💰50；三個都完成，再送 🍬×3 和一顆蛋。</small></div>`+q.list.map(x=>`<div class="card ${x.done?'lead':''}"><b>${x.done?'✅ ':'⬜ '}${x.d}</b>${bar(x.h,x.n)}<small>${x.h}/${x.n}</small></div>`).join('')+`<div class="card"><small>${q.bonus?'🎉 今天全部完成，額外獎勵已領！':'全部完成的額外獎勵：🍬×3 ＋ 一顆蛋'}<br>🍬 經驗糖果持有 ${g.candy}（補給分頁使用，+1 級）</small></div>`}
 function useCandy(i){const m=g.mons[i];if(!g.candy||m.lv>=MAXLV)return;g.candy--;const r=gainXp(m,need(m.lv)-m.xp);go('team',r||'🍬 吃了糖果！')}
-function candyShop(){return `<div class="card"><h2>🍬 經驗糖果</h2><div class="row"><div class="mon sm">🍬</div><div class="grow"><b>經驗糖果</b> <small>+1 級（有 ${g.candy}）</small></div><button ${g.money<60?'disabled':''} onclick="buyCandy(1)">💰60</button><button class="s" ${g.money<300?'disabled':''} onclick="buyCandy(5)">×5</button></div></div>`}
+function candyShop(){return `<div class="card"><h2>🍬 經驗糖果</h2><div class="row"><div class="mon sm">🍬</div><div class="grow"><b>經驗糖果</b> <small>+1 級（有 ${g.candy}）</small></div><button ${g.money<60?'disabled':''} onclick="buyCandy(1)">💰60</button></div></div>`}
 function buyCandy(n){const c=60*n;if(g.money<c)return;g.money-=c;g.candy+=n;go('shop')}
-function flee(){g.b=null;go('map','🏃 你離開了戰鬥。寶可夢的血量沒有恢復，記得吃蘋果或去 🏥 治療！')}
+function flee(){g.b=null;go('map','🏃 已離開戰鬥（血量沒恢復，記得吃🍎或🏥治療）')}
 function act(a){
  const b=g.b,p=g.mons[g.lead],e=b.e;
- if(b.cd)b.cd--;
+ if(b.forced)return;
+ if(g.cd)g.cd--;
  b.guard=false;
  if(a==='atk'){let d=Math.max(1,p.atk-Math.floor(e.def/2)+rnd(4));if(p.trs.includes('fury'))d=Math.round(d*1.3);if(b.charge){d=Math.round(d*1.5);b.charge=false}const mu=mult(ty(p)[0],e.tp);d=Math.max(1,Math.round(d*mu));e.hp-=d;b.log.push(`⚔️ ${p.n} 攻擊，造成 ${d} 傷害！${eff(mu)}`);vamp(p,d,b)}
- else if(a==='big'){b.cd=3;if(!p.trs.includes('lucky')&&rnd(10)<3)b.log.push('💨 必殺技揮空了…');else{let d=Math.max(2,Math.round(p.atk*1.8)-Math.floor(e.def/2));if(b.charge){d=Math.round(d*1.5);b.charge=false}const mu=mult(ty(p)[1]||ty(p)[0],e.tp);d=Math.max(2,Math.round(d*mu));e.hp-=d;b.log.push(`💥 必殺技！造成 ${d} 傷害！${eff(mu)}`);vamp(p,d,b)}}
- else if(a==='ball'||a==='great'){if(!b.wild||!g[a])return;g[a]--;const ch=Math.min(.95,(a==='great'?.5:.3)+(1-e.hp/e.max)*.5);if(Math.random()<ch){const m2=mk(b.key,.9,'wild');g.mons.push(m2);g.b=null;qProg('catch',1);return go('map','🎉 抓到了 '+m2.n+' '+m2.e+'！已加入隊伍。<br><small>🌿 野生捕捉的能力比孵化的弱，可以多餵食物變強。</small>'+awardXp(10))}b.log.push('🔴 球搖了搖……掙脫了！')}else if(a==='heal'){g.food.apple--;const hl=Math.min(30,p.max-p.hp);p.hp+=hl;b.log.push(`🍎 ${p.n} 吃了蘋果，回復 ${hl} 血！`)}else{b.guard=true;b.charge=true;const hl=Math.ceil(p.max*.15);p.hp=Math.min(p.max,p.hp+hl);b.log.push(`🛡️ ${p.n} 防禦！回復 ${hl} 血，下次攻擊 +50%！`)}
+ else if(a==='big'){g.cd=3;if(!p.trs.includes('lucky')&&rnd(10)<3)b.log.push('💨 必殺技揮空了…');else{let d=Math.max(2,Math.round(p.atk*1.8)-Math.floor(e.def/2));if(b.charge){d=Math.round(d*1.5);b.charge=false}const mu=mult(ty(p)[1]||ty(p)[0],e.tp);d=Math.max(2,Math.round(d*mu));e.hp-=d;b.log.push(`💥 必殺技！造成 ${d} 傷害！${eff(mu)}`);vamp(p,d,b)}}
+ else if(a==='ball'||a==='great'){if(!b.wild||!g[a])return;g[a]--;const ch=Math.min(.95,(a==='great'?.5:.3)+(1-e.hp/e.max)*.5);if(Math.random()<ch){const m2=mk(b.key,.9,'wild');g.mons.push(m2);g.b=null;qProg('catch',1);return go('map','🎉 抓到 '+m2.n+m2.e+'！已加入隊伍'+awardXp(10,b.used))}b.log.push('🔴 球搖了搖……掙脫了！')}else if(a==='heal'){g.food.apple--;const hl=Math.min(30,p.max-p.hp);p.hp+=hl;b.log.push(`🍎 ${p.n} 吃了蘋果，回復 ${hl} 血！`)}else{b.guard=true;b.charge=true;const hl=Math.ceil(p.max*.15);p.hp=Math.min(p.max,p.hp+hl);b.log.push(`🛡️ ${p.n} 防禦！回復 ${hl} 血，下次攻擊 +50%！`)}
  if(e.hp<=0)return win();
+ return foeTurn();
+}
+function foeTurn(){
+ const b=g.b,p=g.mons[g.lead],e=b.e;
  let d=Math.max(1,e.atk-Math.floor(p.def/2)+rnd(3));const em=mult(e.tp[rnd(e.tp.length)],ty(p));d=Math.max(1,Math.round(d*em));if(b.guard)d=Math.ceil(d/2);if(p.trs.includes('counter'))d=Math.ceil(d/2);if(p.trs.includes('thick'))d=Math.max(1,d-2);
  p.hp-=d;b.log.push(`🔥 ${e.n} 反擊，你受到 ${d} 傷害！${eff(em)}`);
  if(p.trs.includes('counter')&&p.hp>0){const c=Math.max(1,Math.round((p.atk-Math.floor(e.def/2)+rnd(4))*mult(ty(p)[0],e.tp)));e.hp-=c;b.log.push(`🌀 以柔克剛！${p.n} 用招式反擊，造成 ${c} 傷害！`);if(e.hp<=0)return win()}
- if(p.hp<=0){const fee=Math.min(g.money,30);g.money-=fee;healAll();g.b=null;g.pos=HOME.slice();return go('map','😢 輸了…被送回小鎮的寶可夢中心，治療費 💰'+fee+'。吃點食物變強再來吧！')}
+ if(p.hp<=0)return faint();
  draw();
 }
+function faint(){const b=g.b,p=g.mons[g.lead];p.hp=0;if(g.mons.some(m=>m.hp>0)){b.forced=true;g.sw=true;b.charge=false;b.log.push('💫 '+p.n+' 倒下了！換下一隻上場');return draw()}
+ healAll();g.b=null;g.pos=HOME.slice();return go('map','😢 輸了，全隊倒下，自動回到家，血量回滿（不用付錢）'+(b.boss?'。館主還在等你，練強再來，要重打三隻！':'。吃點東西變強再來！'))}
+function doSw(i){const b=g.b;if(!b||g.mons[i].hp<=0||i===g.lead)return;g.sw=false;g.lead=i;if(!b.used.includes(i))b.used.push(i);b.charge=false;b.guard=false;if(b.forced){b.forced=false;b.log.push('🔄 換上 '+g.mons[i].n+'！');return draw()}b.log.push('🔄 換上 '+g.mons[i].n+'！（換人時被攻擊）');return foeTurn()}
+function swList(){const b=g.b;return `<div class="card"><h2>🔄 ${b.forced?'選擇下一隻上場':'換哪一隻？（換人會被對手攻擊一次）'}</h2></div>`+g.mons.map((m,i)=>`<div class="card ${i===g.lead&&m.hp>0?'lead':''}"><div class="row">${mon(m,1)}<div class="grow"><b>${m.n}</b> <small>Lv.${m.lv}</small>${bar(m.hp,m.max)}<small>❤️${m.hp}/${m.max}　⚔️${m.atk}　🛡️${m.def}</small></div>${i===g.lead&&m.hp>0?'<small>出戰中</small>':`<button class="g" ${m.hp>0?'':'disabled'} onclick="doSw(${i})">${m.hp>0?'換上':'倒下了'}</button>`}</div></div>`).join('')+(b.forced?'':`<button class="s" onclick="g.sw=false;draw()">取消</button>`)}
 function win(){
  const b=g.b,f=g.badges+g.world*8;
- const gold=(b.boss?80:b.wild?12:30)+f*(b.wild?3:6);g.money+=gold;
- let m=b.wild?`✅ 打倒了野生的 ${b.e.n}（牠昏過去了，沒辦法捕捉）獲得 💰${gold}`:`🎉 打敗了 ${b.tn}！獲得 💰${gold}`;
- m+=awardXp(b.boss?70:b.wild?20:35);qProg('win',1);if(!b.wild)qProg('trainer',1);if(rnd(100)<(b.boss?100:b.wild?25:40)){const cn=b.boss?2:1;g.candy+=cn;m+='<br>🍬 撿到經驗糖果×'+cn+'！'}
- if(b.wild){if(rnd(100)<30){g.food.cake++;m+='<br>🍰 撿到蛋糕！'}}
+ if(b.boss&&b.ti<b.team.length-1){const old=b.e;b.ti++;b.e=b.team[b.ti];b.charge=false;const xr=awardXp(20,b.used);b.log.push('✅ 打倒了 '+old.n+'！'+xr);b.log.push('🏟️ '+b.tn+' 派出第 '+(b.ti+1)+' 隻：<b>'+b.e.n+'</b>！');return draw()}
+ const gold=(b.boss?150:b.wild?12:30)+f*(b.wild?3:6);g.money+=gold;
+ let m=b.wild?`✅ 打倒野生${b.e.n}（昏倒了不能抓）💰+${gold}`:`🎉 打敗${b.tn} 💰+${gold}`;
+ m+=awardXp(b.boss?40:b.wild?20:35,b.used);qProg('win',1);if(!b.wild)qProg('trainer',1);if(rnd(100)<(b.boss?100:b.wild?25:40)){const cn=b.boss?2:1;g.candy+=cn;m+=' 🍬+'+cn}
+ if(b.wild){if(rnd(100)<30){g.food.cake++;m+=' 🍰+1'}}
  else if(b.boss){
-  g.badges++;m+=`<br>🏅 拿到第 ${g.badges} 枚徽章！`;
-  if(g.badges>=8){g.badges=0;g.found=[];g.world++;g.b=null;g.pos=HOME.slice();g.seen={};mark(g,HOME[0],HOME[1]);return go('world')}
- }else{const eg=newEgg();g.eggs.push(eg);m+='<br>🥚 拿到 '+eg.n+'（要 🍰'+eg.need+' ，要到首頁的 🪺孵蛋所 放進孵蛋器）！';if(rnd(100)<25){const k=Object.keys(ST)[rnd(4)];g.stone[k]++;m+='<br>'+ST[k][0]+' 撿到 '+ST[k][1]+'！'}}
+  g.beaten=g.beaten||[];if(!g.beaten.includes(b.key))g.beaten.push(b.key);g.badges=g.beaten.length;m+=` 🏅第${g.badges}枚徽章！`;
+  if(g.badges>=8){g.badges=0;g.beaten=[];g.found=[];g.world++;g.b=null;g.pos=HOME.slice();g.seen={};mark(g,HOME[0],HOME[1]);return go('world')}
+ }else{const eg=newEgg();g.eggs.push(eg);m+=' 🥚'+eg.n+'（🍰'+eg.need+'，到隊伍的孵蛋頁孵）';if(rnd(100)<25){const k=Object.keys(ST)[rnd(4)];g.stone[k]++;m+=' '+ST[k][0]+ST[k][1]+'+1'}}
  g.b=null;go('map',m);
 }
 draw();
